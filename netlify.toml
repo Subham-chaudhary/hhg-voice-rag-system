@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Environment variables (SARVAM_API_KEY, JINA_API_KEY, QDRANT_URL,
+# QDRANT_API_KEY, QDRANT_COLLECTION, EMBED_DIM, JINA_MODEL,
+# JINA_RERANK_MODEL, TAU_HIGH, TAU_GOOD, TAU_FLOOR, TAU_RERANK_PASS) are
+# deliberately NOT declared here — variables set in this file are
+# unavailable to Functions at runtime. Set them in the Netlify UI under
+# Site configuration > Environment variables, scope "Functions". See
+# docs/serverless-guide.md.
