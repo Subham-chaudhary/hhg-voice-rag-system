@@ -1,0 +1,2892 @@
+{
+  "label": "SYNTHETIC EXAMPLE — replace before submission",
+  "placeholder": true,
+  "commit": null,
+  "measured_at": null,
+  "warmups": 10,
+  "repeats": 2,
+  "timeouts": 0,
+  "errors": 0,
+  "records": [
+    {
+      "query_id": "q0001",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 151.5,
+      "voice_e2e": 668.2,
+      "stages": {
+        "stt": 485,
+        "validate": 1.7,
+        "embed": 16.8,
+        "retrieve": 11.2,
+        "rank": 2.7,
+        "generate": 78.9,
+        "ground": 5.2
+      }
+    },
+    {
+      "query_id": "q0002",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 130.9,
+      "voice_e2e": 696.9,
+      "stages": {
+        "stt": 521.7,
+        "validate": 2.8,
+        "embed": 12.7,
+        "retrieve": 14.3,
+        "rank": 4.4,
+        "generate": 66.6,
+        "ground": 5.7
+      }
+    },
+    {
+      "query_id": "q0003",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 120.7,
+      "voice_e2e": 580.7,
+      "stages": {
+        "stt": 422.3,
+        "validate": 1.6,
+        "embed": 17.8,
+        "retrieve": 14.1,
+        "rank": 3,
+        "generate": 53,
+        "ground": 5.7
+      }
+    },
+    {
+      "query_id": "q0004",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 133.3,
+      "voice_e2e": 711.5,
+      "stages": {
+        "stt": 511.4,
+        "validate": 2.1,
+        "embed": 12.1,
+        "retrieve": 6.7,
+        "rank": 3.2,
+        "generate": 76.3,
+        "ground": 7.1
+      }
+    },
+    {
+      "query_id": "q0005",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 165.9,
+      "voice_e2e": 638,
+      "stages": {
+        "stt": 409.9,
+        "validate": 2.5,
+        "embed": 19.3,
+        "retrieve": 12.8,
+        "rank": 3.1,
+        "generate": 89.8,
+        "ground": 5.1
+      }
+    },
+    {
+      "query_id": "q0006",
+      "language": "hi",
+      "status": "refused",
+      "rag_core": 151.2,
+      "voice_e2e": 732.7,
+      "stages": {
+        "stt": 528.9,
+        "validate": 2.1,
+        "embed": 13.8,
+        "retrieve": 7.2,
+        "rank": 4.6,
+        "generate": 88.9,
+        "ground": 6.8
+      }
+    },
+    {
+      "query_id": "q0007",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 151.2,
+      "voice_e2e": 707.2,
+      "stages": {
+        "stt": 494.6,
+        "validate": 1.5,
+        "embed": 19.5,
+        "retrieve": 13.9,
+        "rank": 2.4,
+        "generate": 87.9,
+        "ground": 4.6
+      }
+    },
+    {
+      "query_id": "q0008",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 162.4,
+      "voice_e2e": 717.3,
+      "stages": {
+        "stt": 524.8,
+        "validate": 2.8,
+        "embed": 14.7,
+        "retrieve": 9.4,
+        "rank": 2.5,
+        "generate": 92.8,
+        "ground": 5.9
+      }
+    },
+    {
+      "query_id": "q0009",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 133.6,
+      "voice_e2e": 530.2,
+      "stages": {
+        "stt": 361.8,
+        "validate": 2,
+        "embed": 19.3,
+        "retrieve": 9,
+        "rank": 3.4,
+        "generate": 68.9,
+        "ground": 6.8
+      }
+    },
+    {
+      "query_id": "q0010",
+      "language": "hi",
+      "status": "refused",
+      "rag_core": 143.6,
+      "voice_e2e": 529.9,
+      "stages": {
+        "stt": 342.6,
+        "validate": 2.5,
+        "embed": 15.7,
+        "retrieve": 9.3,
+        "rank": 4,
+        "generate": 84.1,
+        "ground": 6.9
+      }
+    },
+    {
+      "query_id": "q0011",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 125.2,
+      "voice_e2e": 692.1,
+      "stages": {
+        "stt": 520,
+        "validate": 2.2,
+        "embed": 17.7,
+        "retrieve": 13.9,
+        "rank": 2.3,
+        "generate": 64.1,
+        "ground": 3.5
+      }
+    },
+    {
+      "query_id": "q0012",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 113.6,
+      "voice_e2e": 680.5,
+      "stages": {
+        "stt": 506.4,
+        "validate": 2.7,
+        "embed": 15.2,
+        "retrieve": 7.4,
+        "rank": 4.4,
+        "generate": 57.8,
+        "ground": 5.4
+      }
+    },
+    {
+      "query_id": "q0013",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 128.8,
+      "voice_e2e": 513.1,
+      "stages": {
+        "stt": 320.2,
+        "validate": 2.5,
+        "embed": 16.5,
+        "retrieve": 8.4,
+        "rank": 3.5,
+        "generate": 58.3,
+        "ground": 4.4
+      }
+    },
+    {
+      "query_id": "q0014",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 157.7,
+      "voice_e2e": 655.4,
+      "stages": {
+        "stt": 432.3,
+        "validate": 2.5,
+        "embed": 15.2,
+        "retrieve": 10.5,
+        "rank": 2.9,
+        "generate": 89.8,
+        "ground": 6
+      }
+    },
+    {
+      "query_id": "q0015",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 125.5,
+      "voice_e2e": 523.4,
+      "stages": {
+        "stt": 333,
+        "validate": 2.2,
+        "embed": 14.5,
+        "retrieve": 7.6,
+        "rank": 3.4,
+        "generate": 61.6,
+        "ground": 4.6
+      }
+    },
+    {
+      "query_id": "q0016",
+      "language": "hi",
+      "status": "refused",
+      "rag_core": 138.5,
+      "voice_e2e": 701.7,
+      "stages": {
+        "stt": 510.9,
+        "validate": 2.3,
+        "embed": 16.5,
+        "retrieve": 10.7,
+        "rank": 3.1,
+        "generate": 73,
+        "ground": 5
+      }
+    },
+    {
+      "query_id": "q0017",
+      "language": "hi",
+      "status": "refused",
+      "rag_core": 132.6,
+      "voice_e2e": 571.2,
+      "stages": {
+        "stt": 402,
+        "validate": 2.7,
+        "embed": 13.2,
+        "retrieve": 11.1,
+        "rank": 4.2,
+        "generate": 60.5,
+        "ground": 4.9
+      }
+    },
+    {
+      "query_id": "q0018",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 145.1,
+      "voice_e2e": 671.2,
+      "stages": {
+        "stt": 490,
+        "validate": 2.9,
+        "embed": 17.5,
+        "retrieve": 8.8,
+        "rank": 3.5,
+        "generate": 80.6,
+        "ground": 7.3
+      }
+    },
+    {
+      "query_id": "q0019",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 125.1,
+      "voice_e2e": 639.7,
+      "stages": {
+        "stt": 472.9,
+        "validate": 1.8,
+        "embed": 14.1,
+        "retrieve": 10.2,
+        "rank": 3.5,
+        "generate": 55.4,
+        "ground": 5
+      }
+    },
+    {
+      "query_id": "q0020",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 124.3,
+      "voice_e2e": 647.8,
+      "stages": {
+        "stt": 454.1,
+        "validate": 2,
+        "embed": 13.1,
+        "retrieve": 7.4,
+        "rank": 4.2,
+        "generate": 66.9,
+        "ground": 6.8
+      }
+    },
+    {
+      "query_id": "q0021",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 165.3,
+      "voice_e2e": 744.2,
+      "stages": {
+        "stt": 529.6,
+        "validate": 2.9,
+        "embed": 20.9,
+        "retrieve": 14.3,
+        "rank": 3.9,
+        "generate": 95.4,
+        "ground": 4.1
+      }
+    },
+    {
+      "query_id": "q0022",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 141.9,
+      "voice_e2e": 586.4,
+      "stages": {
+        "stt": 398.2,
+        "validate": 2,
+        "embed": 12.1,
+        "retrieve": 14.3,
+        "rank": 2.4,
+        "generate": 80.3,
+        "ground": 3.5
+      }
+    },
+    {
+      "query_id": "q0023",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 130.6,
+      "voice_e2e": 538.2,
+      "stages": {
+        "stt": 346.8,
+        "validate": 1.5,
+        "embed": 16.3,
+        "retrieve": 9.9,
+        "rank": 2.6,
+        "generate": 69,
+        "ground": 4.6
+      }
+    },
+    {
+      "query_id": "q0024",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 150.1,
+      "voice_e2e": 540,
+      "stages": {
+        "stt": 333,
+        "validate": 1.8,
+        "embed": 12.3,
+        "retrieve": 13.7,
+        "rank": 3.6,
+        "generate": 89.2,
+        "ground": 4.2
+      }
+    },
+    {
+      "query_id": "q0025",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 150.9,
+      "voice_e2e": 578.6,
+      "stages": {
+        "stt": 380.5,
+        "validate": 2.8,
+        "embed": 19,
+        "retrieve": 13.3,
+        "rank": 3.9,
+        "generate": 73.8,
+        "ground": 6.9
+      }
+    },
+    {
+      "query_id": "q0026",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 179.9,
+      "voice_e2e": 582.6,
+      "stages": {
+        "stt": 356.4,
+        "validate": 2.8,
+        "embed": 15.2,
+        "retrieve": 11.2,
+        "rank": 2.7,
+        "generate": 120.2,
+        "ground": 6.4
+      }
+    },
+    {
+      "query_id": "q0027",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 157.5,
+      "voice_e2e": 659.1,
+      "stages": {
+        "stt": 432.5,
+        "validate": 1.5,
+        "embed": 16.3,
+        "retrieve": 12.3,
+        "rank": 4.7,
+        "generate": 97.9,
+        "ground": 6.4
+      }
+    },
+    {
+      "query_id": "q0028",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 154.2,
+      "voice_e2e": 759.2,
+      "stages": {
+        "stt": 553.5,
+        "validate": 2.3,
+        "embed": 11.9,
+        "retrieve": 13.4,
+        "rank": 4.1,
+        "generate": 97.4,
+        "ground": 4.1
+      }
+    },
+    {
+      "query_id": "q0029",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 147.6,
+      "voice_e2e": 763.7,
+      "stages": {
+        "stt": 558.3,
+        "validate": 1.9,
+        "embed": 12.2,
+        "retrieve": 10.5,
+        "rank": 4.3,
+        "generate": 78,
+        "ground": 6.9
+      }
+    },
+    {
+      "query_id": "q0030",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 137.6,
+      "voice_e2e": 673.7,
+      "stages": {
+        "stt": 503.8,
+        "validate": 1.5,
+        "embed": 17.1,
+        "retrieve": 11.7,
+        "rank": 2.8,
+        "generate": 79,
+        "ground": 7.1
+      }
+    },
+    {
+      "query_id": "q0031",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 153.9,
+      "voice_e2e": 688.1,
+      "stages": {
+        "stt": 485.8,
+        "validate": 2,
+        "embed": 16.9,
+        "retrieve": 12.4,
+        "rank": 2.6,
+        "generate": 95.5,
+        "ground": 5.3
+      }
+    },
+    {
+      "query_id": "q0032",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 159.9,
+      "voice_e2e": 541.2,
+      "stages": {
+        "stt": 323.8,
+        "validate": 2.7,
+        "embed": 16.6,
+        "retrieve": 10.9,
+        "rank": 3.8,
+        "generate": 95.4,
+        "ground": 4.3
+      }
+    },
+    {
+      "query_id": "q0033",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 147.3,
+      "voice_e2e": 740.3,
+      "stages": {
+        "stt": 549.3,
+        "validate": 2.9,
+        "embed": 20.9,
+        "retrieve": 12.8,
+        "rank": 4,
+        "generate": 81.1,
+        "ground": 5.3
+      }
+    },
+    {
+      "query_id": "q0034",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 155,
+      "voice_e2e": 524.3,
+      "stages": {
+        "stt": 333.2,
+        "validate": 2.7,
+        "embed": 19.7,
+        "retrieve": 11.5,
+        "rank": 3.8,
+        "generate": 87.2,
+        "ground": 7.1
+      }
+    },
+    {
+      "query_id": "q0035",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 152.7,
+      "voice_e2e": 702.6,
+      "stages": {
+        "stt": 485.8,
+        "validate": 1.5,
+        "embed": 19.7,
+        "retrieve": 8.5,
+        "rank": 3.7,
+        "generate": 83.8,
+        "ground": 5.9
+      }
+    },
+    {
+      "query_id": "q0036",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 149.5,
+      "voice_e2e": 552.7,
+      "stages": {
+        "stt": 346.7,
+        "validate": 2.2,
+        "embed": 16.6,
+        "retrieve": 13.4,
+        "rank": 2.7,
+        "generate": 86.3,
+        "ground": 3.9
+      }
+    },
+    {
+      "query_id": "q0037",
+      "language": "hi",
+      "status": "refused",
+      "rag_core": 153.1,
+      "voice_e2e": 637.8,
+      "stages": {
+        "stt": 435.9,
+        "validate": 2.9,
+        "embed": 14.7,
+        "retrieve": 8.6,
+        "rank": 4.2,
+        "generate": 88.2,
+        "ground": 5.4
+      }
+    },
+    {
+      "query_id": "q0038",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 146.2,
+      "voice_e2e": 764.2,
+      "stages": {
+        "stt": 551.1,
+        "validate": 1.7,
+        "embed": 15.3,
+        "retrieve": 9.3,
+        "rank": 4.3,
+        "generate": 76.8,
+        "ground": 5.6
+      }
+    },
+    {
+      "query_id": "q0039",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 169.2,
+      "voice_e2e": 729.4,
+      "stages": {
+        "stt": 518.1,
+        "validate": 2.9,
+        "embed": 20.6,
+        "retrieve": 10.5,
+        "rank": 3.8,
+        "generate": 90.9,
+        "ground": 4.9
+      }
+    },
+    {
+      "query_id": "q0040",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 108.4,
+      "voice_e2e": 534.6,
+      "stages": {
+        "stt": 370.1,
+        "validate": 2.9,
+        "embed": 12.5,
+        "retrieve": 7.1,
+        "rank": 3.6,
+        "generate": 54.6,
+        "ground": 4.4
+      }
+    },
+    {
+      "query_id": "q0041",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 120.8,
+      "voice_e2e": 648.5,
+      "stages": {
+        "stt": 461.4,
+        "validate": 3,
+        "embed": 18.3,
+        "retrieve": 6.9,
+        "rank": 2.4,
+        "generate": 60.7,
+        "ground": 5.1
+      }
+    },
+    {
+      "query_id": "q0042",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 140.9,
+      "voice_e2e": 527.5,
+      "stages": {
+        "stt": 341.1,
+        "validate": 2.6,
+        "embed": 20.9,
+        "retrieve": 14.4,
+        "rank": 4,
+        "generate": 65.5,
+        "ground": 4.2
+      }
+    },
+    {
+      "query_id": "q0043",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 179.5,
+      "voice_e2e": 711.9,
+      "stages": {
+        "stt": 486.6,
+        "validate": 1.6,
+        "embed": 14.2,
+        "retrieve": 12.1,
+        "rank": 2.3,
+        "generate": 114.2,
+        "ground": 4
+      }
+    },
+    {
+      "query_id": "q0044",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 168.8,
+      "voice_e2e": 578.8,
+      "stages": {
+        "stt": 378.1,
+        "validate": 2,
+        "embed": 17.8,
+        "retrieve": 12.2,
+        "rank": 3.3,
+        "generate": 102.7,
+        "ground": 4.4
+      }
+    },
+    {
+      "query_id": "q0045",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 129.8,
+      "voice_e2e": 718.7,
+      "stages": {
+        "stt": 558.7,
+        "validate": 2.4,
+        "embed": 17.6,
+        "retrieve": 10.7,
+        "rank": 3.2,
+        "generate": 69.3,
+        "ground": 5.8
+      }
+    },
+    {
+      "query_id": "q0046",
+      "language": "hi",
+      "status": "answered",
+      "rag_core": 147.7,
+      "voice_e2e": 647.4,
+      "stages": {
+        "stt": 433.8,
+        "validate": 2.3,
+        "embed": 13.9,
+        "retrieve": 11.3,
+        "rank": 3.3,
+        "generate": 77.4,
+        "ground": 5.4
+      }
+    },
+    {
+      "query_id": "q0047",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 119.4,
+      "voice_e2e": 508.5,
+      "stages": {
+        "stt": 341.4,
+        "validate": 1.8,
+        "embed": 15.4,
+        "retrieve": 7.6,
+        "rank": 3.3,
+        "generate": 55.5,
+        "ground": 4.3
+      }
+    },
+    {
+      "query_id": "q0048",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 155.8,
+      "voice_e2e": 585.8,
+      "stages": {
+        "stt": 398.1,
+        "validate": 2.8,
+        "embed": 14.4,
+        "retrieve": 9.8,
+        "rank": 3.3,
+        "generate": 87,
+        "ground": 4.8
+      }
+    },
+    {
+      "query_id": "q0049",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 135.6,
+      "voice_e2e": 595.5,
+      "stages": {
+        "stt": 395.2,
+        "validate": 2.2,
+        "embed": 14.6,
+        "retrieve": 10.3,
+        "rank": 2.4,
+        "generate": 76.1,
+        "ground": 7
+      }
+    },
+    {
+      "query_id": "q0050",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 122.2,
+      "voice_e2e": 564,
+      "stages": {
+        "stt": 399.1,
+        "validate": 1.5,
+        "embed": 18.9,
+        "retrieve": 7.2,
+        "rank": 3.2,
+        "generate": 59.4,
+        "ground": 4.5
+      }
+    },
+    {
+      "query_id": "q0051",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 144.2,
+      "voice_e2e": 746.6,
+      "stages": {
+        "stt": 549.1,
+        "validate": 1.4,
+        "embed": 12.8,
+        "retrieve": 8.9,
+        "rank": 2.6,
+        "generate": 92.3,
+        "ground": 3.6
+      }
+    },
+    {
+      "query_id": "q0052",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 146,
+      "voice_e2e": 590.1,
+      "stages": {
+        "stt": 401.1,
+        "validate": 2.1,
+        "embed": 13.2,
+        "retrieve": 8.1,
+        "rank": 3.9,
+        "generate": 95.5,
+        "ground": 3.4
+      }
+    },
+    {
+      "query_id": "q0053",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 161.2,
+      "voice_e2e": 604.4,
+      "stages": {
+        "stt": 376,
+        "validate": 1.6,
+        "embed": 15.6,
+        "retrieve": 10.6,
+        "rank": 3.9,
+        "generate": 92.5,
+        "ground": 5.8
+      }
+    },
+    {
+      "query_id": "q0054",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 140.5,
+      "voice_e2e": 556.2,
+      "stages": {
+        "stt": 367.5,
+        "validate": 1.6,
+        "embed": 11.3,
+        "retrieve": 14.4,
+        "rank": 2.3,
+        "generate": 74.5,
+        "ground": 4.8
+      }
+    },
+    {
+      "query_id": "q0055",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 150.8,
+      "voice_e2e": 736.3,
+      "stages": {
+        "stt": 551,
+        "validate": 1.9,
+        "embed": 16.7,
+        "retrieve": 9.7,
+        "rank": 4.6,
+        "generate": 87.8,
+        "ground": 6
+      }
+    },
+    {
+      "query_id": "q0056",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 163,
+      "voice_e2e": 678.7,
+      "stages": {
+        "stt": 473.6,
+        "validate": 1.7,
+        "embed": 15.5,
+        "retrieve": 7.6,
+        "rank": 2.4,
+        "generate": 97.2,
+        "ground": 3.5
+      }
+    },
+    {
+      "query_id": "q0057",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 153.5,
+      "voice_e2e": 706.4,
+      "stages": {
+        "stt": 511.5,
+        "validate": 3,
+        "embed": 18.3,
+        "retrieve": 10.2,
+        "rank": 2.3,
+        "generate": 88.5,
+        "ground": 4
+      }
+    },
+    {
+      "query_id": "q0058",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 139.4,
+      "voice_e2e": 631.1,
+      "stages": {
+        "stt": 455.4,
+        "validate": 2.8,
+        "embed": 16.3,
+        "retrieve": 11,
+        "rank": 2.7,
+        "generate": 67.2,
+        "ground": 5.4
+      }
+    },
+    {
+      "query_id": "q0059",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 153.2,
+      "voice_e2e": 569.5,
+      "stages": {
+        "stt": 385.2,
+        "validate": 2.3,
+        "embed": 17.4,
+        "retrieve": 14.1,
+        "rank": 3,
+        "generate": 80.5,
+        "ground": 5.8
+      }
+    },
+    {
+      "query_id": "q0060",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 125.9,
+      "voice_e2e": 698.8,
+      "stages": {
+        "stt": 536.2,
+        "validate": 2.7,
+        "embed": 12.2,
+        "retrieve": 7.6,
+        "rank": 3.1,
+        "generate": 62,
+        "ground": 4.4
+      }
+    },
+    {
+      "query_id": "q0061",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 147.4,
+      "voice_e2e": 732.8,
+      "stages": {
+        "stt": 543.9,
+        "validate": 2.7,
+        "embed": 20.9,
+        "retrieve": 10.8,
+        "rank": 3.1,
+        "generate": 80.5,
+        "ground": 5.8
+      }
+    },
+    {
+      "query_id": "q0062",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 162.9,
+      "voice_e2e": 764,
+      "stages": {
+        "stt": 559.3,
+        "validate": 1.5,
+        "embed": 12.6,
+        "retrieve": 10.7,
+        "rank": 3.4,
+        "generate": 95.6,
+        "ground": 4
+      }
+    },
+    {
+      "query_id": "q0063",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 120.7,
+      "voice_e2e": 619.5,
+      "stages": {
+        "stt": 444.1,
+        "validate": 2.3,
+        "embed": 11.5,
+        "retrieve": 8.6,
+        "rank": 4.6,
+        "generate": 68.3,
+        "ground": 3.4
+      }
+    },
+    {
+      "query_id": "q0064",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 114.6,
+      "voice_e2e": 696.2,
+      "stages": {
+        "stt": 518.8,
+        "validate": 1.7,
+        "embed": 18.8,
+        "retrieve": 10.7,
+        "rank": 3.9,
+        "generate": 52.1,
+        "ground": 6.3
+      }
+    },
+    {
+      "query_id": "q0065",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 165.7,
+      "voice_e2e": 772.8,
+      "stages": {
+        "stt": 538.9,
+        "validate": 1.5,
+        "embed": 16.6,
+        "retrieve": 6.8,
+        "rank": 4.2,
+        "generate": 97.9,
+        "ground": 6.4
+      }
+    },
+    {
+      "query_id": "q0066",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 127.3,
+      "voice_e2e": 678.4,
+      "stages": {
+        "stt": 518,
+        "validate": 1.5,
+        "embed": 20.4,
+        "retrieve": 9.9,
+        "rank": 4.3,
+        "generate": 64.9,
+        "ground": 5.9
+      }
+    },
+    {
+      "query_id": "q0067",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 120.8,
+      "voice_e2e": 540.7,
+      "stages": {
+        "stt": 377.1,
+        "validate": 2.7,
+        "embed": 13.7,
+        "retrieve": 13.3,
+        "rank": 2.8,
+        "generate": 63.9,
+        "ground": 5.6
+      }
+    },
+    {
+      "query_id": "q0068",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 124.6,
+      "voice_e2e": 664.2,
+      "stages": {
+        "stt": 492,
+        "validate": 1.8,
+        "embed": 15.9,
+        "retrieve": 9.7,
+        "rank": 3.6,
+        "generate": 66.5,
+        "ground": 3.7
+      }
+    },
+    {
+      "query_id": "q0069",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 151.2,
+      "voice_e2e": 689.4,
+      "stages": {
+        "stt": 474.8,
+        "validate": 2.2,
+        "embed": 17.3,
+        "retrieve": 11.7,
+        "rank": 2.9,
+        "generate": 92.4,
+        "ground": 4.2
+      }
+    },
+    {
+      "query_id": "q0070",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 109.5,
+      "voice_e2e": 530.5,
+      "stages": {
+        "stt": 388.6,
+        "validate": 1.5,
+        "embed": 14.9,
+        "retrieve": 10.4,
+        "rank": 4.3,
+        "generate": 52.9,
+        "ground": 6.4
+      }
+    },
+    {
+      "query_id": "q0071",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 130.9,
+      "voice_e2e": 545,
+      "stages": {
+        "stt": 376.9,
+        "validate": 2.1,
+        "embed": 15.8,
+        "retrieve": 11,
+        "rank": 4.1,
+        "generate": 64.5,
+        "ground": 5.1
+      }
+    },
+    {
+      "query_id": "q0072",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 158.4,
+      "voice_e2e": 628.3,
+      "stages": {
+        "stt": 404.1,
+        "validate": 2.6,
+        "embed": 17.7,
+        "retrieve": 10.2,
+        "rank": 3.8,
+        "generate": 91.7,
+        "ground": 4.2
+      }
+    },
+    {
+      "query_id": "q0073",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 128,
+      "voice_e2e": 641.2,
+      "stages": {
+        "stt": 460.7,
+        "validate": 1.6,
+        "embed": 15.5,
+        "retrieve": 9.5,
+        "rank": 3.6,
+        "generate": 61.4,
+        "ground": 4.4
+      }
+    },
+    {
+      "query_id": "q0074",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 159.2,
+      "voice_e2e": 535.9,
+      "stages": {
+        "stt": 337.9,
+        "validate": 2.4,
+        "embed": 15,
+        "retrieve": 13.4,
+        "rank": 4.2,
+        "generate": 81.6,
+        "ground": 6.7
+      }
+    },
+    {
+      "query_id": "q0075",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 141.2,
+      "voice_e2e": 670,
+      "stages": {
+        "stt": 462.2,
+        "validate": 1.8,
+        "embed": 15.5,
+        "retrieve": 6.6,
+        "rank": 4.4,
+        "generate": 70.5,
+        "ground": 6.8
+      }
+    },
+    {
+      "query_id": "q0076",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 125.4,
+      "voice_e2e": 625.5,
+      "stages": {
+        "stt": 445.1,
+        "validate": 2.9,
+        "embed": 15.2,
+        "retrieve": 7,
+        "rank": 4.4,
+        "generate": 65.5,
+        "ground": 3.6
+      }
+    },
+    {
+      "query_id": "q0077",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 149.1,
+      "voice_e2e": 531.1,
+      "stages": {
+        "stt": 346.9,
+        "validate": 2.1,
+        "embed": 16,
+        "retrieve": 12.4,
+        "rank": 4.7,
+        "generate": 75.9,
+        "ground": 6.5
+      }
+    },
+    {
+      "query_id": "q0078",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 137.6,
+      "voice_e2e": 628.6,
+      "stages": {
+        "stt": 455.4,
+        "validate": 2.3,
+        "embed": 12.1,
+        "retrieve": 8.9,
+        "rank": 2.2,
+        "generate": 83.8,
+        "ground": 6.2
+      }
+    },
+    {
+      "query_id": "q0079",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 133.2,
+      "voice_e2e": 697.2,
+      "stages": {
+        "stt": 529.6,
+        "validate": 2.5,
+        "embed": 17.1,
+        "retrieve": 8.8,
+        "rank": 2.8,
+        "generate": 62.9,
+        "ground": 4.9
+      }
+    },
+    {
+      "query_id": "q0080",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 130.5,
+      "voice_e2e": 560.3,
+      "stages": {
+        "stt": 395.5,
+        "validate": 1.7,
+        "embed": 20.1,
+        "retrieve": 8.8,
+        "rank": 3.1,
+        "generate": 60.5,
+        "ground": 3.6
+      }
+    },
+    {
+      "query_id": "q0081",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 120.6,
+      "voice_e2e": 617.9,
+      "stages": {
+        "stt": 463.1,
+        "validate": 2.4,
+        "embed": 13.7,
+        "retrieve": 11.4,
+        "rank": 2.8,
+        "generate": 66.5,
+        "ground": 5.3
+      }
+    },
+    {
+      "query_id": "q0082",
+      "language": "en",
+      "status": "refused",
+      "rag_core": 140.3,
+      "voice_e2e": 749.1,
+      "stages": {
+        "stt": 555.6,
+        "validate": 2.4,
+        "embed": 13.2,
+        "retrieve": 14.4,
+        "rank": 3.6,
+        "generate": 76.7,
+        "ground": 6.1
+      }
+    },
+    {
+      "query_id": "q0083",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 156.4,
+      "voice_e2e": 656,
+      "stages": {
+        "stt": 437.4,
+        "validate": 1.8,
+        "embed": 11,
+        "retrieve": 11.7,
+        "rank": 3,
+        "generate": 93.4,
+        "ground": 7.4
+      }
+    },
+    {
+      "query_id": "q0084",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 139.9,
+      "voice_e2e": 632.3,
+      "stages": {
+        "stt": 457.7,
+        "validate": 2.3,
+        "embed": 12.3,
+        "retrieve": 6.9,
+        "rank": 4.3,
+        "generate": 88.3,
+        "ground": 6.8
+      }
+    },
+    {
+      "query_id": "q0085",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 150.4,
+      "voice_e2e": 587.1,
+      "stages": {
+        "stt": 405.8,
+        "validate": 2.9,
+        "embed": 12.3,
+        "retrieve": 14.3,
+        "rank": 4.6,
+        "generate": 87.1,
+        "ground": 6
+      }
+    },
+    {
+      "query_id": "q0086",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 186,
+      "voice_e2e": 627.9,
+      "stages": {
+        "stt": 410.8,
+        "validate": 2.3,
+        "embed": 17.7,
+        "retrieve": 8.5,
+        "rank": 4.6,
+        "generate": 125.4,
+        "ground": 6.9
+      }
+    },
+    {
+      "query_id": "q0087",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 157.3,
+      "voice_e2e": 734.9,
+      "stages": {
+        "stt": 522.5,
+        "validate": 2.5,
+        "embed": 16.7,
+        "retrieve": 12.1,
+        "rank": 2.6,
+        "generate": 88.6,
+        "ground": 6.9
+      }
+    },
+    {
+      "query_id": "q0088",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 121.1,
+      "voice_e2e": 511.1,
+      "stages": {
+        "stt": 322.3,
+        "validate": 1.4,
+        "embed": 19.1,
+        "retrieve": 8.7,
+        "rank": 4.5,
+        "generate": 60.3,
+        "ground": 5.3
+      }
+    },
+    {
+      "query_id": "q0089",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 133.3,
+      "voice_e2e": 582,
+      "stages": {
+        "stt": 404.5,
+        "validate": 2.8,
+        "embed": 19,
+        "retrieve": 11.8,
+        "rank": 4.4,
+        "generate": 59.1,
+        "ground": 4.9
+      }
+    },
+    {
+      "query_id": "q0090",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 118.3,
+      "voice_e2e": 546.8,
+      "stages": {
+        "stt": 378.6,
+        "validate": 1.7,
+        "embed": 19.6,
+        "retrieve": 6.7,
+        "rank": 3.4,
+        "generate": 59.9,
+        "ground": 7.1
+      }
+    },
+    {
+      "query_id": "q0091",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 143.3,
+      "voice_e2e": 675.6,
+      "stages": {
+        "stt": 495.3,
+        "validate": 1.7,
+        "embed": 18.4,
+        "retrieve": 14.5,
+        "rank": 4.5,
+        "generate": 65,
+        "ground": 5.9
+      }
+    },
+    {
+      "query_id": "q0092",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 137.9,
+      "voice_e2e": 650.5,
+      "stages": {
+        "stt": 477.4,
+        "validate": 2.4,
+        "embed": 16.9,
+        "retrieve": 10.8,
+        "rank": 3.2,
+        "generate": 67.3,
+        "ground": 7.4
+      }
+    },
+    {
+      "query_id": "q0093",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 142.2,
+      "voice_e2e": 540.5,
+      "stages": {
+        "stt": 334,
+        "validate": 2.2,
+        "embed": 19.7,
+        "retrieve": 9.8,
+        "rank": 4,
+        "generate": 75,
+        "ground": 4.4
+      }
+    },
+    {
+      "query_id": "q0094",
+      "language": "en",
+      "status": "refused",
+      "rag_core": 141.4,
+      "voice_e2e": 721.6,
+      "stages": {
+        "stt": 546.1,
+        "validate": 2.4,
+        "embed": 15.8,
+        "retrieve": 6.8,
+        "rank": 2.3,
+        "generate": 88.6,
+        "ground": 3.6
+      }
+    },
+    {
+      "query_id": "q0095",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 154.4,
+      "voice_e2e": 560.5,
+      "stages": {
+        "stt": 361.2,
+        "validate": 2.2,
+        "embed": 12.6,
+        "retrieve": 10.3,
+        "rank": 3.1,
+        "generate": 85.3,
+        "ground": 7.2
+      }
+    },
+    {
+      "query_id": "q0096",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 137.7,
+      "voice_e2e": 633.3,
+      "stages": {
+        "stt": 446.1,
+        "validate": 1.5,
+        "embed": 17,
+        "retrieve": 9.3,
+        "rank": 3.8,
+        "generate": 76.3,
+        "ground": 4.5
+      }
+    },
+    {
+      "query_id": "q0097",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 119.3,
+      "voice_e2e": 685.9,
+      "stages": {
+        "stt": 508.5,
+        "validate": 1.9,
+        "embed": 17.1,
+        "retrieve": 9.7,
+        "rank": 2.6,
+        "generate": 58.1,
+        "ground": 7.1
+      }
+    },
+    {
+      "query_id": "q0098",
+      "language": "en",
+      "status": "answered",
+      "rag_core": 125.8,
+      "voice_e2e": 711.8,
+      "stages": {
+        "stt": 523.4,
+        "validate": 1.7,
+        "embed": 16.1,
+        "retrieve": 9.8,
+        "rank": 4.3,
+        "generate": 54.9,
+        "ground": 3.5
+      }
+    },
+    {
+      "query_id": "q0099",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 152.2,
+      "voice_e2e": 561.6,
+      "stages": {
+        "stt": 348.9,
+        "validate": 1.7,
+        "embed": 20.7,
+        "retrieve": 12.6,
+        "rank": 3.7,
+        "generate": 80.2,
+        "ground": 5
+      }
+    },
+    {
+      "query_id": "q0100",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 119.7,
+      "voice_e2e": 656.4,
+      "stages": {
+        "stt": 486.8,
+        "validate": 1.8,
+        "embed": 13.4,
+        "retrieve": 10.9,
+        "rank": 3.7,
+        "generate": 52,
+        "ground": 6.5
+      }
+    },
+    {
+      "query_id": "q0101",
+      "language": "bn",
+      "status": "refused",
+      "rag_core": 122.8,
+      "voice_e2e": 554.1,
+      "stages": {
+        "stt": 374.5,
+        "validate": 2.7,
+        "embed": 14.8,
+        "retrieve": 8,
+        "rank": 2.2,
+        "generate": 70.8,
+        "ground": 5.9
+      }
+    },
+    {
+      "query_id": "q0102",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 132.2,
+      "voice_e2e": 529.4,
+      "stages": {
+        "stt": 338.6,
+        "validate": 2.6,
+        "embed": 16.1,
+        "retrieve": 12.5,
+        "rank": 3.1,
+        "generate": 73.3,
+        "ground": 4.8
+      }
+    },
+    {
+      "query_id": "q0103",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 139.4,
+      "voice_e2e": 687.2,
+      "stages": {
+        "stt": 506.3,
+        "validate": 2.8,
+        "embed": 11.2,
+        "retrieve": 14,
+        "rank": 3.1,
+        "generate": 75.3,
+        "ground": 7.3
+      }
+    },
+    {
+      "query_id": "q0104",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 125.3,
+      "voice_e2e": 593.3,
+      "stages": {
+        "stt": 428.4,
+        "validate": 2.1,
+        "embed": 19.1,
+        "retrieve": 6.7,
+        "rank": 4.1,
+        "generate": 66.6,
+        "ground": 3.9
+      }
+    },
+    {
+      "query_id": "q0105",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 139.1,
+      "voice_e2e": 695.3,
+      "stages": {
+        "stt": 497.4,
+        "validate": 2.6,
+        "embed": 15,
+        "retrieve": 7.8,
+        "rank": 4.5,
+        "generate": 82.7,
+        "ground": 6.1
+      }
+    },
+    {
+      "query_id": "q0106",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 127.6,
+      "voice_e2e": 494.8,
+      "stages": {
+        "stt": 333.1,
+        "validate": 1.6,
+        "embed": 17,
+        "retrieve": 9.7,
+        "rank": 2.6,
+        "generate": 62,
+        "ground": 6.9
+      }
+    },
+    {
+      "query_id": "q0107",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 152.6,
+      "voice_e2e": 587.3,
+      "stages": {
+        "stt": 401.5,
+        "validate": 2.3,
+        "embed": 11.2,
+        "retrieve": 14,
+        "rank": 4,
+        "generate": 94,
+        "ground": 4.5
+      }
+    },
+    {
+      "query_id": "q0108",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 126.6,
+      "voice_e2e": 727.6,
+      "stages": {
+        "stt": 552.1,
+        "validate": 1.6,
+        "embed": 15.8,
+        "retrieve": 11,
+        "rank": 3.8,
+        "generate": 69.1,
+        "ground": 3.8
+      }
+    },
+    {
+      "query_id": "q0109",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 149.8,
+      "voice_e2e": 721.9,
+      "stages": {
+        "stt": 530,
+        "validate": 2.8,
+        "embed": 18.5,
+        "retrieve": 12.9,
+        "rank": 4.4,
+        "generate": 84.2,
+        "ground": 6.2
+      }
+    },
+    {
+      "query_id": "q0110",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 151.2,
+      "voice_e2e": 559.9,
+      "stages": {
+        "stt": 377.1,
+        "validate": 1.5,
+        "embed": 13.9,
+        "retrieve": 7.2,
+        "rank": 4.5,
+        "generate": 84.5,
+        "ground": 3.7
+      }
+    },
+    {
+      "query_id": "q0111",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 123.8,
+      "voice_e2e": 630.7,
+      "stages": {
+        "stt": 450.7,
+        "validate": 2,
+        "embed": 11.6,
+        "retrieve": 9.3,
+        "rank": 2.9,
+        "generate": 58.1,
+        "ground": 4.3
+      }
+    },
+    {
+      "query_id": "q0112",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 145.6,
+      "voice_e2e": 668.6,
+      "stages": {
+        "stt": 476.2,
+        "validate": 2.1,
+        "embed": 17.4,
+        "retrieve": 9.8,
+        "rank": 3.3,
+        "generate": 81.1,
+        "ground": 4.2
+      }
+    },
+    {
+      "query_id": "q0113",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 149.7,
+      "voice_e2e": 756.3,
+      "stages": {
+        "stt": 536.7,
+        "validate": 2.9,
+        "embed": 18.2,
+        "retrieve": 9.5,
+        "rank": 2.8,
+        "generate": 75,
+        "ground": 5.2
+      }
+    },
+    {
+      "query_id": "q0114",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 125.1,
+      "voice_e2e": 672.6,
+      "stages": {
+        "stt": 508.2,
+        "validate": 2,
+        "embed": 16.7,
+        "retrieve": 7.6,
+        "rank": 4,
+        "generate": 55,
+        "ground": 5.1
+      }
+    },
+    {
+      "query_id": "q0115",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 134.6,
+      "voice_e2e": 616.7,
+      "stages": {
+        "stt": 417.1,
+        "validate": 2.1,
+        "embed": 14,
+        "retrieve": 9.4,
+        "rank": 3.3,
+        "generate": 72.4,
+        "ground": 5.9
+      }
+    },
+    {
+      "query_id": "q0116",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 178.4,
+      "voice_e2e": 607.2,
+      "stages": {
+        "stt": 386.4,
+        "validate": 1.9,
+        "embed": 18.1,
+        "retrieve": 10.5,
+        "rank": 3.2,
+        "generate": 107.1,
+        "ground": 3.8
+      }
+    },
+    {
+      "query_id": "q0117",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 130.9,
+      "voice_e2e": 669.7,
+      "stages": {
+        "stt": 471.1,
+        "validate": 2.6,
+        "embed": 16.8,
+        "retrieve": 9.9,
+        "rank": 3.9,
+        "generate": 60.5,
+        "ground": 7
+      }
+    },
+    {
+      "query_id": "q0118",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 128.4,
+      "voice_e2e": 598.4,
+      "stages": {
+        "stt": 436.4,
+        "validate": 2.4,
+        "embed": 16.6,
+        "retrieve": 11.2,
+        "rank": 4.7,
+        "generate": 56.9,
+        "ground": 4.7
+      }
+    },
+    {
+      "query_id": "q0119",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 126.6,
+      "voice_e2e": 575.4,
+      "stages": {
+        "stt": 390.2,
+        "validate": 2.3,
+        "embed": 19,
+        "retrieve": 10.1,
+        "rank": 4.1,
+        "generate": 62.8,
+        "ground": 5.9
+      }
+    },
+    {
+      "query_id": "q0120",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 155.6,
+      "voice_e2e": 711.1,
+      "stages": {
+        "stt": 493,
+        "validate": 2.5,
+        "embed": 18.6,
+        "retrieve": 9,
+        "rank": 4.2,
+        "generate": 94,
+        "ground": 4.1
+      }
+    },
+    {
+      "query_id": "q0121",
+      "language": "bn",
+      "status": "refused",
+      "rag_core": 152.8,
+      "voice_e2e": 671.1,
+      "stages": {
+        "stt": 476.2,
+        "validate": 1.9,
+        "embed": 13.2,
+        "retrieve": 12.3,
+        "rank": 3.6,
+        "generate": 88.6,
+        "ground": 5
+      }
+    },
+    {
+      "query_id": "q0122",
+      "language": "bn",
+      "status": "refused",
+      "rag_core": 133.9,
+      "voice_e2e": 555.1,
+      "stages": {
+        "stt": 379.6,
+        "validate": 2,
+        "embed": 16.1,
+        "retrieve": 11.6,
+        "rank": 3.9,
+        "generate": 69.3,
+        "ground": 6.3
+      }
+    },
+    {
+      "query_id": "q0123",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 156.1,
+      "voice_e2e": 741.3,
+      "stages": {
+        "stt": 537.5,
+        "validate": 2.6,
+        "embed": 19.4,
+        "retrieve": 7.3,
+        "rank": 4.5,
+        "generate": 91.2,
+        "ground": 5.5
+      }
+    },
+    {
+      "query_id": "q0124",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 125.2,
+      "voice_e2e": 504,
+      "stages": {
+        "stt": 332,
+        "validate": 2.9,
+        "embed": 11.3,
+        "retrieve": 7.7,
+        "rank": 4.5,
+        "generate": 59.2,
+        "ground": 6.2
+      }
+    },
+    {
+      "query_id": "q0125",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 134.2,
+      "voice_e2e": 636.6,
+      "stages": {
+        "stt": 449.8,
+        "validate": 1.8,
+        "embed": 13.4,
+        "retrieve": 6.7,
+        "rank": 3.2,
+        "generate": 76.7,
+        "ground": 6.1
+      }
+    },
+    {
+      "query_id": "q0126",
+      "language": "bn",
+      "status": "answered",
+      "rag_core": 131.6,
+      "voice_e2e": 545.7,
+      "stages": {
+        "stt": 358.4,
+        "validate": 1.9,
+        "embed": 14.1,
+        "retrieve": 11.4,
+        "rank": 2.4,
+        "generate": 66.8,
+        "ground": 4.8
+      }
+    },
+    {
+      "query_id": "q0127",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 155,
+      "voice_e2e": 597.1,
+      "stages": {
+        "stt": 388.2,
+        "validate": 2.7,
+        "embed": 16.1,
+        "retrieve": 11.4,
+        "rank": 2.4,
+        "generate": 92.3,
+        "ground": 5.2
+      }
+    },
+    {
+      "query_id": "q0128",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 153.5,
+      "voice_e2e": 546.8,
+      "stages": {
+        "stt": 323.5,
+        "validate": 2.8,
+        "embed": 18.8,
+        "retrieve": 9.7,
+        "rank": 3,
+        "generate": 81.5,
+        "ground": 6.4
+      }
+    },
+    {
+      "query_id": "q0129",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 115,
+      "voice_e2e": 678.8,
+      "stages": {
+        "stt": 511.6,
+        "validate": 1.4,
+        "embed": 15.9,
+        "retrieve": 9.4,
+        "rank": 4.4,
+        "generate": 56.3,
+        "ground": 5
+      }
+    },
+    {
+      "query_id": "q0130",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 134.1,
+      "voice_e2e": 539.3,
+      "stages": {
+        "stt": 357.2,
+        "validate": 2.9,
+        "embed": 16,
+        "retrieve": 7.5,
+        "rank": 4.1,
+        "generate": 75.8,
+        "ground": 4.6
+      }
+    },
+    {
+      "query_id": "q0131",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 145.5,
+      "voice_e2e": 606.4,
+      "stages": {
+        "stt": 415.9,
+        "validate": 2.5,
+        "embed": 19.4,
+        "retrieve": 11.6,
+        "rank": 4.8,
+        "generate": 79.5,
+        "ground": 3.6
+      }
+    },
+    {
+      "query_id": "q0132",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 156.8,
+      "voice_e2e": 755.2,
+      "stages": {
+        "stt": 531.9,
+        "validate": 2.2,
+        "embed": 19.1,
+        "retrieve": 9,
+        "rank": 3.9,
+        "generate": 94.4,
+        "ground": 3.7
+      }
+    },
+    {
+      "query_id": "q0133",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 153.8,
+      "voice_e2e": 633.9,
+      "stages": {
+        "stt": 414.4,
+        "validate": 2.4,
+        "embed": 13.3,
+        "retrieve": 8.4,
+        "rank": 4.3,
+        "generate": 85.8,
+        "ground": 6.3
+      }
+    },
+    {
+      "query_id": "q0134",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 129.6,
+      "voice_e2e": 580.2,
+      "stages": {
+        "stt": 399.4,
+        "validate": 1.6,
+        "embed": 13.1,
+        "retrieve": 12.8,
+        "rank": 3.6,
+        "generate": 69.3,
+        "ground": 4.4
+      }
+    },
+    {
+      "query_id": "q0135",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 123.3,
+      "voice_e2e": 561.1,
+      "stages": {
+        "stt": 396.4,
+        "validate": 2.1,
+        "embed": 18.6,
+        "retrieve": 13.8,
+        "rank": 3.1,
+        "generate": 59.6,
+        "ground": 4.4
+      }
+    },
+    {
+      "query_id": "q0136",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 151.6,
+      "voice_e2e": 620.9,
+      "stages": {
+        "stt": 410.3,
+        "validate": 2.4,
+        "embed": 13.8,
+        "retrieve": 13.2,
+        "rank": 3.3,
+        "generate": 86.2,
+        "ground": 5
+      }
+    },
+    {
+      "query_id": "q0137",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 134.3,
+      "voice_e2e": 688.5,
+      "stages": {
+        "stt": 516.1,
+        "validate": 1.9,
+        "embed": 19.3,
+        "retrieve": 12.6,
+        "rank": 3.8,
+        "generate": 57.5,
+        "ground": 7.3
+      }
+    },
+    {
+      "query_id": "q0138",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 166.9,
+      "voice_e2e": 531.4,
+      "stages": {
+        "stt": 326.8,
+        "validate": 2.1,
+        "embed": 19.7,
+        "retrieve": 9.4,
+        "rank": 2.5,
+        "generate": 92.1,
+        "ground": 5.5
+      }
+    },
+    {
+      "query_id": "q0139",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 136.4,
+      "voice_e2e": 729.7,
+      "stages": {
+        "stt": 524.4,
+        "validate": 2.8,
+        "embed": 15,
+        "retrieve": 10.9,
+        "rank": 2.6,
+        "generate": 74.7,
+        "ground": 7.1
+      }
+    },
+    {
+      "query_id": "q0140",
+      "language": "ta",
+      "status": "refused",
+      "rag_core": 121.8,
+      "voice_e2e": 668.8,
+      "stages": {
+        "stt": 496.1,
+        "validate": 1.4,
+        "embed": 11.2,
+        "retrieve": 12.9,
+        "rank": 3.1,
+        "generate": 70.7,
+        "ground": 4.2
+      }
+    },
+    {
+      "query_id": "q0141",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 121.4,
+      "voice_e2e": 703.1,
+      "stages": {
+        "stt": 522.4,
+        "validate": 2.6,
+        "embed": 16.4,
+        "retrieve": 9.2,
+        "rank": 2.8,
+        "generate": 64.1,
+        "ground": 4.5
+      }
+    },
+    {
+      "query_id": "q0142",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 155.3,
+      "voice_e2e": 673.1,
+      "stages": {
+        "stt": 480.5,
+        "validate": 2.8,
+        "embed": 16.8,
+        "retrieve": 12.5,
+        "rank": 3.6,
+        "generate": 95.7,
+        "ground": 4.8
+      }
+    },
+    {
+      "query_id": "q0143",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 156.5,
+      "voice_e2e": 693.7,
+      "stages": {
+        "stt": 492.1,
+        "validate": 2,
+        "embed": 20.9,
+        "retrieve": 7.7,
+        "rank": 4.2,
+        "generate": 94.2,
+        "ground": 5.4
+      }
+    },
+    {
+      "query_id": "q0144",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 165.4,
+      "voice_e2e": 633.3,
+      "stages": {
+        "stt": 399.9,
+        "validate": 2.5,
+        "embed": 19.3,
+        "retrieve": 12.4,
+        "rank": 2.3,
+        "generate": 94,
+        "ground": 4.1
+      }
+    },
+    {
+      "query_id": "q0145",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 172.5,
+      "voice_e2e": 710.2,
+      "stages": {
+        "stt": 493.1,
+        "validate": 1.6,
+        "embed": 17.3,
+        "retrieve": 13.6,
+        "rank": 4.3,
+        "generate": 96.5,
+        "ground": 4.1
+      }
+    },
+    {
+      "query_id": "q0146",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 140.1,
+      "voice_e2e": 583.3,
+      "stages": {
+        "stt": 399.2,
+        "validate": 2.3,
+        "embed": 16,
+        "retrieve": 7,
+        "rank": 2.8,
+        "generate": 80.7,
+        "ground": 3.6
+      }
+    },
+    {
+      "query_id": "q0147",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 156.7,
+      "voice_e2e": 731.5,
+      "stages": {
+        "stt": 535.4,
+        "validate": 2.5,
+        "embed": 20.3,
+        "retrieve": 9.1,
+        "rank": 4.8,
+        "generate": 91,
+        "ground": 6.7
+      }
+    },
+    {
+      "query_id": "q0148",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 133.3,
+      "voice_e2e": 615.1,
+      "stages": {
+        "stt": 426.8,
+        "validate": 2.4,
+        "embed": 14.9,
+        "retrieve": 8.5,
+        "rank": 3.5,
+        "generate": 72.9,
+        "ground": 6.6
+      }
+    },
+    {
+      "query_id": "q0149",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 134.6,
+      "voice_e2e": 512.6,
+      "stages": {
+        "stt": 331.9,
+        "validate": 1.8,
+        "embed": 12.4,
+        "retrieve": 8,
+        "rank": 3.1,
+        "generate": 81.9,
+        "ground": 5
+      }
+    },
+    {
+      "query_id": "q0150",
+      "language": "ta",
+      "status": "refused",
+      "rag_core": 130.5,
+      "voice_e2e": 537.6,
+      "stages": {
+        "stt": 372.7,
+        "validate": 1.5,
+        "embed": 11.8,
+        "retrieve": 7.9,
+        "rank": 2.8,
+        "generate": 75.3,
+        "ground": 6.2
+      }
+    },
+    {
+      "query_id": "q0151",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 115.9,
+      "voice_e2e": 675.9,
+      "stages": {
+        "stt": 515,
+        "validate": 2.4,
+        "embed": 18.1,
+        "retrieve": 7.7,
+        "rank": 3.6,
+        "generate": 53.2,
+        "ground": 6.5
+      }
+    },
+    {
+      "query_id": "q0152",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 161.4,
+      "voice_e2e": 586.7,
+      "stages": {
+        "stt": 365.5,
+        "validate": 1.9,
+        "embed": 18.3,
+        "retrieve": 10.5,
+        "rank": 3.2,
+        "generate": 92.5,
+        "ground": 7.4
+      }
+    },
+    {
+      "query_id": "q0153",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 160.7,
+      "voice_e2e": 553.3,
+      "stages": {
+        "stt": 354.8,
+        "validate": 2.5,
+        "embed": 19.9,
+        "retrieve": 14.4,
+        "rank": 4.4,
+        "generate": 93.1,
+        "ground": 3.7
+      }
+    },
+    {
+      "query_id": "q0154",
+      "language": "ta",
+      "status": "answered",
+      "rag_core": 139.7,
+      "voice_e2e": 521.6,
+      "stages": {
+        "stt": 339.1,
+        "validate": 2.6,
+        "embed": 12.1,
+        "retrieve": 8.4,
+        "rank": 4.3,
+        "generate": 76.3,
+        "ground": 6.2
+      }
+    },
+    {
+      "query_id": "q0155",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 140.1,
+      "voice_e2e": 693.2,
+      "stages": {
+        "stt": 515.1,
+        "validate": 1.9,
+        "embed": 14.8,
+        "retrieve": 7.7,
+        "rank": 2.7,
+        "generate": 89.8,
+        "ground": 4.8
+      }
+    },
+    {
+      "query_id": "q0156",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 134.6,
+      "voice_e2e": 672.2,
+      "stages": {
+        "stt": 489,
+        "validate": 1.9,
+        "embed": 15.4,
+        "retrieve": 8.4,
+        "rank": 2.8,
+        "generate": 67.4,
+        "ground": 4.7
+      }
+    },
+    {
+      "query_id": "q0157",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 144.6,
+      "voice_e2e": 728.9,
+      "stages": {
+        "stt": 546.7,
+        "validate": 1.8,
+        "embed": 20.6,
+        "retrieve": 12.3,
+        "rank": 3.9,
+        "generate": 74.8,
+        "ground": 4.1
+      }
+    },
+    {
+      "query_id": "q0158",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 148.5,
+      "voice_e2e": 536.4,
+      "stages": {
+        "stt": 332.9,
+        "validate": 2.4,
+        "embed": 17.4,
+        "retrieve": 8.4,
+        "rank": 3,
+        "generate": 77.7,
+        "ground": 4.9
+      }
+    },
+    {
+      "query_id": "q0159",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 129.5,
+      "voice_e2e": 636.4,
+      "stages": {
+        "stt": 449.9,
+        "validate": 1.7,
+        "embed": 14.7,
+        "retrieve": 12.5,
+        "rank": 4,
+        "generate": 66.7,
+        "ground": 5.6
+      }
+    },
+    {
+      "query_id": "q0160",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 121.5,
+      "voice_e2e": 586.6,
+      "stages": {
+        "stt": 400.3,
+        "validate": 2.8,
+        "embed": 15,
+        "retrieve": 11.9,
+        "rank": 2.9,
+        "generate": 59.9,
+        "ground": 6.1
+      }
+    },
+    {
+      "query_id": "q0161",
+      "language": "te",
+      "status": "refused",
+      "rag_core": 133.5,
+      "voice_e2e": 665.6,
+      "stages": {
+        "stt": 484.9,
+        "validate": 2.6,
+        "embed": 15.8,
+        "retrieve": 7.2,
+        "rank": 3.2,
+        "generate": 69.4,
+        "ground": 6.9
+      }
+    },
+    {
+      "query_id": "q0162",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 145.9,
+      "voice_e2e": 736.4,
+      "stages": {
+        "stt": 540.4,
+        "validate": 2.9,
+        "embed": 13.7,
+        "retrieve": 11.2,
+        "rank": 2.6,
+        "generate": 88.4,
+        "ground": 4.5
+      }
+    },
+    {
+      "query_id": "q0163",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 145.7,
+      "voice_e2e": 567.7,
+      "stages": {
+        "stt": 365.8,
+        "validate": 1.4,
+        "embed": 12.6,
+        "retrieve": 7.7,
+        "rank": 3.3,
+        "generate": 90.1,
+        "ground": 6.8
+      }
+    },
+    {
+      "query_id": "q0164",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 151.4,
+      "voice_e2e": 729.7,
+      "stages": {
+        "stt": 540.3,
+        "validate": 1.8,
+        "embed": 20.2,
+        "retrieve": 7.2,
+        "rank": 3.1,
+        "generate": 82.9,
+        "ground": 4.7
+      }
+    },
+    {
+      "query_id": "q0165",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 132.3,
+      "voice_e2e": 731.8,
+      "stages": {
+        "stt": 530.7,
+        "validate": 1.7,
+        "embed": 15.1,
+        "retrieve": 7.2,
+        "rank": 4.2,
+        "generate": 79.5,
+        "ground": 5.7
+      }
+    },
+    {
+      "query_id": "q0166",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 156.9,
+      "voice_e2e": 629.7,
+      "stages": {
+        "stt": 423.5,
+        "validate": 2.2,
+        "embed": 11.5,
+        "retrieve": 12.2,
+        "rank": 3.5,
+        "generate": 91.2,
+        "ground": 7.2
+      }
+    },
+    {
+      "query_id": "q0167",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 133.3,
+      "voice_e2e": 552.6,
+      "stages": {
+        "stt": 372.8,
+        "validate": 2.7,
+        "embed": 11.2,
+        "retrieve": 12.2,
+        "rank": 4.4,
+        "generate": 76.7,
+        "ground": 4
+      }
+    },
+    {
+      "query_id": "q0168",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 128.8,
+      "voice_e2e": 589.1,
+      "stages": {
+        "stt": 392.9,
+        "validate": 2.9,
+        "embed": 15.3,
+        "retrieve": 11.9,
+        "rank": 4.2,
+        "generate": 61.5,
+        "ground": 3.5
+      }
+    },
+    {
+      "query_id": "q0169",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 131,
+      "voice_e2e": 689.1,
+      "stages": {
+        "stt": 516.8,
+        "validate": 2.3,
+        "embed": 11.3,
+        "retrieve": 8.8,
+        "rank": 3.6,
+        "generate": 77.9,
+        "ground": 4.6
+      }
+    },
+    {
+      "query_id": "q0170",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 149,
+      "voice_e2e": 671.9,
+      "stages": {
+        "stt": 487.6,
+        "validate": 2.3,
+        "embed": 17.6,
+        "retrieve": 12.7,
+        "rank": 3.8,
+        "generate": 79.2,
+        "ground": 3.9
+      }
+    },
+    {
+      "query_id": "q0171",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 121,
+      "voice_e2e": 710.2,
+      "stages": {
+        "stt": 546.3,
+        "validate": 2.9,
+        "embed": 20.5,
+        "retrieve": 10.7,
+        "rank": 2.3,
+        "generate": 53.2,
+        "ground": 7.2
+      }
+    },
+    {
+      "query_id": "q0172",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 160.6,
+      "voice_e2e": 617.1,
+      "stages": {
+        "stt": 416.1,
+        "validate": 2.3,
+        "embed": 15.3,
+        "retrieve": 13.9,
+        "rank": 4.3,
+        "generate": 86.5,
+        "ground": 4.8
+      }
+    },
+    {
+      "query_id": "q0173",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 120.2,
+      "voice_e2e": 589.8,
+      "stages": {
+        "stt": 413.7,
+        "validate": 2.8,
+        "embed": 17.6,
+        "retrieve": 9.7,
+        "rank": 4.6,
+        "generate": 58.5,
+        "ground": 4.1
+      }
+    },
+    {
+      "query_id": "q0174",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 121,
+      "voice_e2e": 571.3,
+      "stages": {
+        "stt": 420.1,
+        "validate": 2,
+        "embed": 13.9,
+        "retrieve": 12.7,
+        "rank": 3.9,
+        "generate": 62.2,
+        "ground": 3.9
+      }
+    },
+    {
+      "query_id": "q0175",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 120.5,
+      "voice_e2e": 508.6,
+      "stages": {
+        "stt": 323.7,
+        "validate": 2.1,
+        "embed": 15.1,
+        "retrieve": 12.2,
+        "rank": 4.3,
+        "generate": 59.9,
+        "ground": 4.5
+      }
+    },
+    {
+      "query_id": "q0176",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 140,
+      "voice_e2e": 715.4,
+      "stages": {
+        "stt": 514.8,
+        "validate": 2.6,
+        "embed": 14.6,
+        "retrieve": 10.4,
+        "rank": 4.4,
+        "generate": 74.6,
+        "ground": 7.3
+      }
+    },
+    {
+      "query_id": "q0177",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 142.2,
+      "voice_e2e": 518.6,
+      "stages": {
+        "stt": 337.7,
+        "validate": 1.5,
+        "embed": 20.6,
+        "retrieve": 12.6,
+        "rank": 3.1,
+        "generate": 70.2,
+        "ground": 3.5
+      }
+    },
+    {
+      "query_id": "q0178",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 134.2,
+      "voice_e2e": 500.2,
+      "stages": {
+        "stt": 329.4,
+        "validate": 1.9,
+        "embed": 12.7,
+        "retrieve": 10.8,
+        "rank": 4.7,
+        "generate": 70.1,
+        "ground": 5.6
+      }
+    },
+    {
+      "query_id": "q0179",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 141.8,
+      "voice_e2e": 497.5,
+      "stages": {
+        "stt": 320.2,
+        "validate": 2,
+        "embed": 20.6,
+        "retrieve": 8.4,
+        "rank": 3.3,
+        "generate": 73.8,
+        "ground": 4.3
+      }
+    },
+    {
+      "query_id": "q0180",
+      "language": "te",
+      "status": "answered",
+      "rag_core": 155.7,
+      "voice_e2e": 739.4,
+      "stages": {
+        "stt": 519.7,
+        "validate": 2.4,
+        "embed": 19,
+        "retrieve": 11.6,
+        "rank": 2.3,
+        "generate": 95.8,
+        "ground": 4.1
+      }
+    }
+  ]
+}

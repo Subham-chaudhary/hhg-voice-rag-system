@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+
+  --plane: #0f0e0d;
+  --surface-1: #171512;
+  --surface-2: #1f1c18;
+  --surface-3: #292520;
+
+  --ink-primary: #f7f2ea;
+  --ink-secondary: #b8afa1;
+  --ink-muted: #8a8177;
+
+  --line-hairline: rgba(247, 242, 234, 0.09);
+  --line-strong: rgba(247, 242, 234, 0.16);
+
+  --amber: #f59e0b;
+  --amber-bright: #fbbf24;
+  --amber-wash: rgba(245, 158, 11, 0.12);
+  --coral: #fb7185;
+  --coral-wash: rgba(251, 113, 133, 0.12);
+
+  --status-good: #0ca30c;
+  --status-critical: #d03b3b;
+
+  --stage-1: #ffe9c2;
+  --stage-2: #f8c877;
+  --stage-3: #f0a840;
+  --stage-4: #de8a1e;
+  --stage-5: #bc6e12;
+  --stage-6: #98550c;
+  --stage-7: #75400a;
+}
+
+@theme inline {
+  --color-plane: var(--plane);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink-primary);
+  --color-ink-secondary: var(--ink-secondary);
+  --color-ink-muted: var(--ink-muted);
+  --color-hairline: var(--line-hairline);
+  --color-amber: var(--amber);
+  --color-coral: var(--coral);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
+body {
+  background: var(--plane);
+  color: var(--ink-primary);
+}
+
+body {
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--amber-wash);
+  color: var(--ink-primary);
+}
+
+.num {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.display {
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.035;
+  background-image: radial-gradient(circle at 1px 1px, #f7f2ea 1px, transparent 0);
+  background-size: 4px 4px;
+}
+
+@keyframes zen-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes zen-sweep {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(340%);
+  }
+}
+
+@keyframes zen-breathe {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.rise {
+  animation: zen-rise 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.breathe {
+  animation: zen-breathe 1.6s ease-in-out infinite;
+}
+
+.sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.sweep::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inline-size: 30%;
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.25), transparent);
+  animation: zen-sweep 1.15s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .breathe,
+  .sweep::after {
+    animation: none;
+  }
+}
