@@ -1,6 +1,6 @@
 {
-  "model": "jinaai/jina-embeddings-v3",
-  "revision": "PLACEHOLDER_RUN_INGESTION_FIRST",
+  "model": "jinaai/jina-embeddings-v5-text-small",
+  "revision": "5",
   "corpus_task": "retrieval.passage",
   "query_task": "retrieval.query",
   "dims": [128, 256, 512, 768, 1024],

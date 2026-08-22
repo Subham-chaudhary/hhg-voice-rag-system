@@ -1,9 +1,11 @@
 /**
  * The parity-critical lib. Colab embedded the corpus with the LOCAL
- * jinaai/jina-embeddings-v3 weights; the runtime embeds queries with the
- * Jina API. These must produce compatible vectors or retrieval returns
- * confident, plausible, wrong results and nothing throws. See
- * test/parity.test.ts, which is the build gate for this file.
+ * weights named in data_ingestion/ingest_msmarco.ipynb's JINA_MODEL_ID
+ * (currently jinaai/jina-embeddings-v5-text-small); the runtime embeds
+ * queries with the Jina API via the JINA_MODEL env var, which must name
+ * the same model family. Mismatched models produce confident, plausible,
+ * wrong results and nothing throws. See test/parity.test.ts, which is the
+ * build gate for this file.
  */
 import { Agent } from "node:https";
 
