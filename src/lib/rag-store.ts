@@ -113,6 +113,17 @@ export function isPersistent(): boolean {
   return storage() !== null;
 }
 
+/** Distinct from isPersistent(): storage can work but hold nothing yet. */
+export function hasStoredKey(): boolean {
+  const store = storage();
+  if (!store) return false;
+  try {
+    return store.getItem(KEY) !== null;
+  } catch {
+    return false;
+  }
+}
+
 export interface LatencyPercentiles {
   p50: number;
   p70: number;

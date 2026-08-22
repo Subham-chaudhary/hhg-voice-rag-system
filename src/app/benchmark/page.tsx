@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { CorpusStats } from "@/components/CorpusStats";
 import { Footer } from "@/components/Footer";
 import { HhgRibbon } from "@/components/HhgRibbon";
 import { Histogram } from "@/components/Histogram";
@@ -16,33 +17,35 @@ import {
   StageKey,
 } from "@/lib/contract";
 import { ms } from "@/lib/format";
-import { getSnapshot, isPersistent, subscribe, type SessionRecord } from "@/lib/rag-store";
+import { getSnapshot, hasStoredKey, isPersistent, subscribe, type SessionRecord } from "@/lib/rag-store";
+
+type DataSource = "pending" | "local" | "harness";
 
 export default function Benchmark() {
   const [run, setRun] = useState<BenchmarkRun | null>(null);
   const [failed, setFailed] = useState(false);
-  // Explicit mount-time read, same reasoning as SessionLatencyPanel — this
-  // is client-only data with no SSR snapshot worth reconciling against.
   const [localRecords, setLocalRecords] = useState<SessionRecord[]>([]);
   const [localStorageAvailable, setLocalStorageAvailable] = useState(false);
+  const [dataSource, setDataSource] = useState<DataSource>("pending");
 
   useEffect(() => {
-    fetch("/api/benchmark")
-      .then((response) => response.json())
-      .then(setRun)
-      .catch(() => setFailed(true));
-  }, []);
-
-  useEffect(() => {
-    // One-time read of external systems (localStorage) on mount, not
-    // derived from any React state; subscribe() below is the ongoing sync.
+    // Decided once, on mount, before any fetch: a local key means we never
+    // call the harness API at all — local history is the primary source,
+    // not a fallback for when the harness response looks empty.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLocalRecords(getSnapshot());
     setLocalStorageAvailable(isPersistent());
+    if (hasStoredKey()) {
+      setLocalRecords(getSnapshot());
+      setDataSource("local");
+    } else {
+      setDataSource("harness");
+      fetch("/api/benchmark")
+        .then((response) => response.json())
+        .then(setRun)
+        .catch(() => setFailed(true));
+    }
     return subscribe(() => setLocalRecords(getSnapshot()));
   }, []);
-
-  const noHarnessData = run && (run.queryCount === 0 || run.isPlaceholder);
 
   return (
     <div className="grain flex min-h-full flex-col">
@@ -57,37 +60,22 @@ export default function Benchmark() {
           </p>
         </header>
 
-        {failed && <Notice tone="critical">Could not load benchmark results.</Notice>}
-        {!run && !failed && <Notice tone="muted">Loading results…</Notice>}
+        <CorpusStats />
 
-        {run && run.queryCount === 0 && (
-          <Notice tone="critical">
-            No benchmark run found. Drop the output of <code className="num">run_benchmark.py</code> into{" "}
-            <code className="num">benchmarks/results/final.json</code> and this page fills in automatically.
-          </Notice>
-        )}
+        {dataSource === "pending" && <Notice tone="muted">Checking local history…</Notice>}
 
-        {run && run.isPlaceholder && run.queryCount > 0 && (
-          <Notice tone="critical">
-            <strong>Synthetic sample data — not a measured run.</strong> These numbers exist only so the page
-            can be reviewed. Replace with{" "}
-            <code className="num">benchmarks/results/final.json</code> from the real harness before
-            submitting anything.
-          </Notice>
-        )}
-
-        {noHarnessData && localRecords.length > 0 && (
+        {dataSource === "local" && localRecords.length > 0 && (
           <div className="mt-6">
             <p className="mb-2 text-[11px] uppercase tracking-[0.14em] text-ink-muted">
-              Showing local browser history instead — not the official harness run
+              From your browser&apos;s local history — not the official harness run
             </p>
             <SessionLatencyPanel />
           </div>
         )}
 
-        {noHarnessData && localRecords.length === 0 && localStorageAvailable && (
+        {dataSource === "local" && localRecords.length === 0 && (
           <Notice tone="muted">
-            No local queries recorded yet either. Run a few queries on{" "}
+            No local queries recorded yet. Run a few queries on{" "}
             <Link href="/" className="underline hover:text-ink">
               the console
             </Link>{" "}
@@ -95,12 +83,33 @@ export default function Benchmark() {
           </Notice>
         )}
 
-        {noHarnessData && localRecords.length === 0 && !localStorageAvailable && (
-          <Notice tone="critical">
-            Local history isn&apos;t available in this browser (private/incognito mode, or storage is
-            blocked) — only a real harness <code className="num">final.json</code> can populate this page
-            here.
-          </Notice>
+        {dataSource === "harness" && (
+          <>
+            {failed && <Notice tone="critical">Could not load benchmark results.</Notice>}
+            {!run && !failed && <Notice tone="muted">Loading results…</Notice>}
+
+            {run && run.queryCount === 0 && (
+              <Notice tone="critical">
+                No benchmark run found, and no local history in this browser either. Drop the output of{" "}
+                <code className="num">run_benchmark.py</code> into{" "}
+                <code className="num">benchmarks/results/final.json</code>, or run a few queries on{" "}
+                <Link href="/" className="underline hover:text-ink">
+                  the console
+                </Link>{" "}
+                {!localStorageAvailable &&
+                  "— though local history isn't available in this browser (private/incognito mode, or storage is blocked)."}
+              </Notice>
+            )}
+
+            {run && run.isPlaceholder && run.queryCount > 0 && (
+              <Notice tone="critical">
+                <strong>Synthetic sample data — not a measured run.</strong> These numbers exist only so the
+                page can be reviewed. Replace with{" "}
+                <code className="num">benchmarks/results/final.json</code> from the real harness before
+                submitting anything.
+              </Notice>
+            )}
+          </>
         )}
 
         {run && run.queryCount > 0 && (
