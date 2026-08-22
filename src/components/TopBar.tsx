@@ -2,11 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ResponseSource } from "@/lib/contract";
 
 export interface ConnectionState {
-  configured: boolean | null;
-  lastSource: ResponseSource | null;
+  lastSource: "live" | "degraded" | "down" | null;
   reason: string | null;
 }
 
@@ -46,22 +44,25 @@ export function TopBar({ connection }: { connection?: ConnectionState }) {
 }
 
 function ConnectionPill({ connection }: { connection: ConnectionState }) {
-  const simulated = connection.lastSource === "simulated";
   const live = connection.lastSource === "live";
+  const degraded = connection.lastSource === "degraded";
+  const down = connection.lastSource === "down";
 
-  const label = live ? "Live" : simulated ? "Simulated" : connection.configured ? "Backend set" : "No backend";
+  const label = live ? "Live" : degraded ? "Degraded" : down ? "Down" : "No calls yet";
   const color = live
     ? "var(--status-good)"
-    : simulated
+    : degraded
       ? "var(--coral)"
-      : connection.configured
-        ? "var(--ink-secondary)"
+      : down
+        ? "var(--status-critical)"
         : "var(--ink-muted)";
   const background = live
     ? "rgba(12,163,12,0.12)"
-    : simulated
+    : degraded
       ? "var(--coral-wash)"
-      : "var(--surface-2)";
+      : down
+        ? "rgba(208,59,59,0.14)"
+        : "var(--surface-2)";
 
   return (
     <span
