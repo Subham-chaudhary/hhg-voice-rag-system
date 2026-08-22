@@ -6,6 +6,11 @@ import { VoiceRecorder, isRecordingSupported } from "@/lib/audio";
 const noopSubscribe = () => () => {};
 
 const BAR_COUNT = 44;
+const MAX_RECORDING_MS = 30_000;
+// Same floor/ceiling netlify/lib/sarvam.ts enforces server-side — reject
+// locally first so an obvious UI bug or runaway recording costs no API call.
+const MIN_AUDIO_BYTES = 1_000;
+const MAX_AUDIO_BYTES = 10 * 1024 * 1024;
 
 interface ComposerProps {
   busy: boolean;
@@ -18,14 +23,61 @@ export function Composer({ busy, onText, onAudio }: ComposerProps) {
   const [levels, setLevels] = useState<number[]>(() => new Array(BAR_COUNT).fill(0));
   const [text, setText] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [remainingMs, setRemainingMs] = useState(MAX_RECORDING_MS);
   const supported = useSyncExternalStore(noopSubscribe, isRecordingSupported, () => true);
 
   const recorderRef = useRef<VoiceRecorder | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const capTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // The 30s auto-stop timer is scheduled once, inside start()'s closure, and
+  // fires long after that closure is stale (recording was still false when
+  // it captured `stop`). Route through a ref so it always calls the current
+  // stop(), not the one from the render where recording hadn't started yet.
+  const stopRef = useRef<() => Promise<void>>(async () => {});
 
   const pushLevel = useCallback((level: number) => {
     setLevels((current) => [...current.slice(1), level]);
   }, []);
+
+  const clearTimers = useCallback(() => {
+    if (capTimerRef.current) clearTimeout(capTimerRef.current);
+    if (tickRef.current) clearInterval(tickRef.current);
+    capTimerRef.current = null;
+    tickRef.current = null;
+  }, []);
+
+  const stop = useCallback(async () => {
+    const recorder = recorderRef.current;
+    clearTimers();
+    if (!recorder || !recording) return;
+    setRecording(false);
+    recorderRef.current = null;
+    try {
+      const { wav, durationMs } = await recorder.stop();
+      setLevels(new Array(BAR_COUNT).fill(0));
+      if (durationMs < 350) {
+        setError("That was too short to transcribe. Hold the button while you speak.");
+        return;
+      }
+      // Reject locally before uploading — instant, and costs no API call.
+      if (wav.size < MIN_AUDIO_BYTES) {
+        setError("That recording was too short to transcribe.");
+        return;
+      }
+      if (wav.size > MAX_AUDIO_BYTES) {
+        setError("That recording was too long. Keep it under 30 seconds.");
+        return;
+      }
+      onAudio(wav, durationMs);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Could not encode the recording.");
+    }
+  }, [recording, onAudio, clearTimers]);
+
+  useEffect(() => {
+    stopRef.current = stop;
+  }, [stop]);
 
   const start = useCallback(async () => {
     if (busy || recording) return;
@@ -35,6 +87,12 @@ export function Composer({ busy, onText, onAudio }: ComposerProps) {
     try {
       await recorder.start();
       setRecording(true);
+      const startedAt = performance.now();
+      setRemainingMs(MAX_RECORDING_MS);
+      tickRef.current = setInterval(() => {
+        setRemainingMs(Math.max(0, MAX_RECORDING_MS - (performance.now() - startedAt)));
+      }, 200);
+      capTimerRef.current = setTimeout(() => void stopRef.current(), MAX_RECORDING_MS);
     } catch (cause) {
       recorderRef.current = null;
       setError(
@@ -46,24 +104,6 @@ export function Composer({ busy, onText, onAudio }: ComposerProps) {
       );
     }
   }, [busy, recording, pushLevel]);
-
-  const stop = useCallback(async () => {
-    const recorder = recorderRef.current;
-    if (!recorder || !recording) return;
-    setRecording(false);
-    recorderRef.current = null;
-    try {
-      const { wav, durationMs } = await recorder.stop();
-      setLevels(new Array(BAR_COUNT).fill(0));
-      if (durationMs < 350) {
-        setError("That was too short to transcribe. Hold the button while you speak.");
-        return;
-      }
-      onAudio(wav, durationMs);
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "Could not encode the recording.");
-    }
-  }, [recording, onAudio]);
 
   useEffect(() => {
     const isTyping = () => document.activeElement === inputRef.current;
@@ -87,7 +127,13 @@ export function Composer({ busy, onText, onAudio }: ComposerProps) {
     };
   }, [start, stop]);
 
-  useEffect(() => () => recorderRef.current?.cancel(), []);
+  useEffect(
+    () => () => {
+      clearTimers();
+      recorderRef.current?.cancel();
+    },
+    [clearTimers],
+  );
 
   const submitText = (event: React.FormEvent) => {
     event.preventDefault();
@@ -160,7 +206,12 @@ export function Composer({ busy, onText, onAudio }: ComposerProps) {
           </div>
           <p className="mt-1.5 text-xs text-ink-muted">
             {recording ? (
-              <span style={{ color: "var(--amber-bright)" }}>Listening — release to send</span>
+              <span style={{ color: "var(--amber-bright)" }}>
+                Listening — release to send{" "}
+                <span className="num" style={{ color: remainingMs < 5000 ? "var(--coral)" : undefined }}>
+                  · {Math.ceil(remainingMs / 1000)}s left
+                </span>
+              </span>
             ) : supported ? (
               <>
                 <span className="sm:hidden">Hold to speak</span>

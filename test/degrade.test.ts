@@ -1,7 +1,7 @@
 /**
  * Full end-to-end proof of the degradation ladder is the manual demo
  * described in serverless.md §6: unset JINA_API_KEY on the deployed site,
- * curl /api/search, confirm evidence still comes back with
+ * curl /fn/search, confirm evidence still comes back with
  * degraded: "sparse_only". That requires a live Qdrant collection and isn't
  * reproducible in a unit test.
  *

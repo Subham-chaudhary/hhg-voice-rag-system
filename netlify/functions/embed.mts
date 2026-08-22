@@ -70,4 +70,4 @@ function log(line: Record<string, unknown>) {
   console.log(JSON.stringify(line));
 }
 
-export const config: Config = { path: "/api/embed" };
+export const config: Config = { path: "/fn/embed" };

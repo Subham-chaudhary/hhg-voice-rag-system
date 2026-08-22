@@ -9,7 +9,7 @@ export const RequestIdSchema = z.string().uuid().optional();
 export const TimingsSchema = z.record(z.string(), z.number());
 
 // ---------------------------------------------------------------------------
-// /api/stt
+// /fn/stt
 // ---------------------------------------------------------------------------
 
 export const SttFieldsSchema = z.object({
@@ -27,7 +27,7 @@ export const SttResponseSchema = z.object({
 });
 
 // ---------------------------------------------------------------------------
-// /api/embed
+// /fn/embed
 // ---------------------------------------------------------------------------
 
 export const EmbedRequestSchema = z.object({
@@ -46,7 +46,7 @@ export const EmbedResponseSchema = z.object({
 });
 
 // ---------------------------------------------------------------------------
-// /api/rerank
+// /fn/rerank
 // ---------------------------------------------------------------------------
 
 export const RerankRequestSchema = z.object({
@@ -70,7 +70,7 @@ export const RerankResponseSchema = z.object({
 });
 
 // ---------------------------------------------------------------------------
-// /api/search — the measured path
+// /fn/search — the measured path
 // ---------------------------------------------------------------------------
 
 export const SearchRequestSchema = z.object({
@@ -106,7 +106,7 @@ export const SearchResponseSchema = z.object({
 });
 
 // ---------------------------------------------------------------------------
-// /api/health
+// /fn/health
 // ---------------------------------------------------------------------------
 
 export const DependencyStatusSchema = z.object({

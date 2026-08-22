@@ -1,5 +1,5 @@
 /**
- * POST /api/stt — multipart/form-data { file, language_code? }
+ * POST /fn/stt — multipart/form-data { file, language_code? }
  * Forwards to Sarvam. One retry on 5xx only, never on 4xx, never twice —
  * two retries risk the function's own timeout ceiling.
  */
@@ -93,4 +93,4 @@ function log(line: Record<string, unknown>) {
   console.log(JSON.stringify(line));
 }
 
-export const config: Config = { path: "/api/stt" };
+export const config: Config = { path: "/fn/stt" };

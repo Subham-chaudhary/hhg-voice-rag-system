@@ -1,5 +1,5 @@
 /**
- * GET /api/health — pings Jina, Qdrant, Sarvam with 2s timeouts in
+ * GET /fn/health — pings Jina, Qdrant, Sarvam with 2s timeouts in
  * parallel. 503 if Qdrant is down; 200 with a warning if only Sarvam is.
  * Also asserts collection points_count matches the ingestion manifest — a
  * silent mismatch means the cluster was rebuilt or partially loaded.
@@ -91,4 +91,4 @@ function round(ms: number) {
   return Math.round(ms * 10) / 10;
 }
 
-export const config: Config = { path: "/api/health" };
+export const config: Config = { path: "/fn/health" };
