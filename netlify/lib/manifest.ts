@@ -28,9 +28,9 @@ export type Manifest = {
 };
 
 function baseModelName(id: string): string {
-  // "jinaai/jina-embeddings-v3" (HF repo id, used by Colab) and
-  // "jina-embeddings-v3" (Jina API model id, used at query time) name the
-  // same model family — compare the part after any "org/" prefix.
+  // "jinaai/jina-embeddings-v5-text-small" (HF repo id, used by Colab) and
+  // "jina-embeddings-v5-text-small" (Jina API model id, used at query time)
+  // name the same model family — compare the part after any "org/" prefix.
   return id.includes("/") ? id.split("/").pop()! : id;
 }
 
