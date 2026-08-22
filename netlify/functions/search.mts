@@ -45,8 +45,15 @@ const handler = async (req: Request): Promise<Response> => {
   if (!parsed.success) {
     return respond(400, { status: "error", request_id: requestId, timings_ms: {} });
   }
-  const { transcript, language_code } = parsed.data;
+  const { transcript, language_code: rawLanguageCode } = parsed.data;
   const requestIdOut = parsed.data.request_id ?? requestId;
+  // Sarvam returns BCP-47 codes ("hi-IN", "en-IN", ...); the corpus's `lang`
+  // payload field only has bare ISO codes ("hi", "en", ...). Using the raw
+  // code as the Qdrant filter matches zero points for every voice query —
+  // silently, since an empty filtered result set isn't an error, just an
+  // empty one. Text-path callers that already send a bare code are
+  // unaffected by this normalization.
+  const language_code = rawLanguageCode?.split("-")[0].toLowerCase();
 
   // --- pre-retrieval guardrail: zero API calls spent on garbage input ---
   const queryCheck = checkQuery(transcript);
