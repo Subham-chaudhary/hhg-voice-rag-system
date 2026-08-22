@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { HhgRibbon } from "@/components/HhgRibbon";
 import { Histogram } from "@/components/Histogram";
+import { SessionLatencyPanel } from "@/components/SessionLatencyPanel";
 import { TopBar } from "@/components/TopBar";
 import { LANGUAGE_NAME } from "@/lib/adapter";
 import {
@@ -14,10 +16,15 @@ import {
   StageKey,
 } from "@/lib/contract";
 import { ms } from "@/lib/format";
+import { getServerSnapshot, getSnapshot, isPersistent, subscribe } from "@/lib/rag-store";
+
+const noopSubscribe = () => () => {};
 
 export default function Benchmark() {
   const [run, setRun] = useState<BenchmarkRun | null>(null);
   const [failed, setFailed] = useState(false);
+  const localRecords = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const localStorageAvailable = useSyncExternalStore(noopSubscribe, isPersistent, () => false);
 
   useEffect(() => {
     fetch("/api/benchmark")
@@ -25,6 +32,8 @@ export default function Benchmark() {
       .then(setRun)
       .catch(() => setFailed(true));
   }, []);
+
+  const noHarnessData = run && (run.queryCount === 0 || run.isPlaceholder);
 
   return (
     <div className="grain flex min-h-full flex-col">
@@ -55,6 +64,33 @@ export default function Benchmark() {
             can be reviewed. Replace with{" "}
             <code className="num">benchmarks/results/final.json</code> from the real harness before
             submitting anything.
+          </Notice>
+        )}
+
+        {noHarnessData && localRecords.length > 0 && (
+          <div className="mt-6">
+            <p className="mb-2 text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+              Showing local browser history instead — not the official harness run
+            </p>
+            <SessionLatencyPanel />
+          </div>
+        )}
+
+        {noHarnessData && localRecords.length === 0 && localStorageAvailable && (
+          <Notice tone="muted">
+            No local queries recorded yet either. Run a few queries on{" "}
+            <Link href="/" className="underline hover:text-ink">
+              the console
+            </Link>{" "}
+            and they&apos;ll appear here automatically.
+          </Notice>
+        )}
+
+        {noHarnessData && localRecords.length === 0 && !localStorageAvailable && (
+          <Notice tone="critical">
+            Local history isn&apos;t available in this browser (private/incognito mode, or storage is
+            blocked) — only a real harness <code className="num">final.json</code> can populate this page
+            here.
           </Notice>
         )}
 

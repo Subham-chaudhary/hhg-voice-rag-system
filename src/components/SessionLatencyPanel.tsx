@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 import { Histogram } from "./Histogram";
 import { ms, percent } from "@/lib/format";
-import { getServerSnapshot, getSnapshot, segmentLatency, subscribe } from "@/lib/rag-store";
+import { clearRecords, getServerSnapshot, getSnapshot, segmentLatency, subscribe } from "@/lib/rag-store";
 
 const RAG_CORE_TARGET_MS = 200;
 
@@ -16,12 +16,21 @@ export function SessionLatencyPanel() {
 
   return (
     <section className="rounded-xl border border-hairline bg-surface-1">
-      <header className="border-b border-hairline px-5 py-4 sm:px-6">
-        <p className="text-[11px] uppercase tracking-[0.16em] text-ink-muted">Session latency</p>
-        <p className="mt-1 text-xs text-ink-secondary">
-          {records.length} quer{records.length === 1 ? "y" : "ies"} this session · rerank rate{" "}
-          {percent(seg.rerankRate, 0)}
-        </p>
+      <header className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 border-b border-hairline px-5 py-4 sm:px-6">
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.16em] text-ink-muted">Session latency</p>
+          <p className="mt-1 text-xs text-ink-secondary">
+            {records.length} quer{records.length === 1 ? "y" : "ies"} recorded in this browser · rerank rate{" "}
+            {percent(seg.rerankRate, 0)}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={clearRecords}
+          className="text-[11px] uppercase tracking-[0.1em] text-ink-muted transition-colors hover:text-coral"
+        >
+          Clear
+        </button>
       </header>
 
       <div className="px-5 py-4 sm:px-6">
