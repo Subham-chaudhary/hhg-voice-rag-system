@@ -262,6 +262,16 @@ function jitter(base: number, spread: number): number {
   return Math.round((base + (Math.random() - 0.5) * spread) * 10) / 10;
 }
 
+const MOCK_CORES = {
+  stt: { id: "sarvam.saarika-v2", provider: "sarvam", model: "saarika:v2", version: "2.1" },
+  validate: { id: "guard.rules-v1", provider: "internal", version: "1.0" },
+  embed: { id: "e5.multilingual-base", provider: "huggingface", model: "intfloat/multilingual-e5-base" },
+  retrieve: { id: "qdrant.hybrid-rrf", provider: "qdrant", version: "1.12" },
+  rank: { id: "fusion.rrf-diversity", provider: "internal", version: "1.0" },
+  generate: { id: "groq.gpt-oss-20b", provider: "groq", model: "openai/gpt-oss-20b" },
+  ground: { id: "gate.token-coverage", provider: "internal", version: "1.0" },
+};
+
 export function buildMockResponse(transcript: string, withVoice: boolean) {
   const scenario = SCENARIOS.find((entry) => entry.match.test(transcript)) ?? DEFAULT_SCENARIO;
   const refused = scenario.status === "refused";
@@ -292,6 +302,18 @@ export function buildMockResponse(transcript: string, withVoice: boolean) {
     model: refused ? null : "groq/openai-gpt-oss-20b",
     trace_id: `mock-${Math.random().toString(36).slice(2, 10)}`,
     fallback: scenario.fallback ?? null,
+    cores: {
+      ...MOCK_CORES,
+      ...(withVoice ? {} : { stt: { ...MOCK_CORES.stt, status: "disabled" } }),
+      ...(blockedEarly
+        ? {
+            embed: { ...MOCK_CORES.embed, status: "disabled" },
+            retrieve: { ...MOCK_CORES.retrieve, status: "disabled" },
+            rank: { ...MOCK_CORES.rank, status: "disabled" },
+          }
+        : {}),
+      ...(refused ? { generate: { ...MOCK_CORES.generate, status: "disabled" } } : {}),
+    },
     latency_ms: {
       stt,
       validate,

@@ -41,7 +41,7 @@ export function StageRail({
             <li
               key={stage}
               title={STAGE_DETAIL[stage as StageKey]}
-              className="relative flex items-center gap-2 overflow-hidden rounded-lg bg-surface-2 px-2.5 py-2"
+              className="relative flex min-w-0 items-center gap-2 overflow-hidden rounded-lg bg-surface-2 px-2.5 py-2"
             >
               <span
                 aria-hidden

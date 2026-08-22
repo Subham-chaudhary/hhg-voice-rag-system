@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Footer } from "@/components/Footer";
+import { HhgRibbon } from "@/components/HhgRibbon";
 import { Histogram } from "@/components/Histogram";
 import { TopBar } from "@/components/TopBar";
 import { LANGUAGE_NAME } from "@/lib/adapter";
@@ -25,9 +27,10 @@ export default function Benchmark() {
   }, []);
 
   return (
-    <div className="grain min-h-full">
+    <div className="grain flex min-h-full flex-col">
+      <HhgRibbon />
       <TopBar />
-      <main className="relative z-10 mx-auto max-w-5xl px-5 pb-24 pt-8 sm:px-8 sm:pt-12">
+      <main className="relative z-10 mx-auto w-full max-w-5xl flex-1 px-5 pb-16 pt-8 sm:px-8 sm:pt-12">
         <header className="max-w-2xl">
           <h1 className="display text-[30px] leading-[1.12] text-ink sm:text-[38px]">Latency analytics</h1>
           <p className="mt-3 text-[15px] leading-relaxed text-ink-secondary">
@@ -57,19 +60,59 @@ export default function Benchmark() {
 
         {run && run.queryCount > 0 && (
           <>
-            <section className="mt-8 grid gap-4 sm:grid-cols-3">
-              <HeroTile
-                label="P50 RAG-core"
-                value={run.ragCore.p50}
-                emphasis
-                withinBudget={run.ragCore.p50 <= RAG_CORE_BUDGET_MS}
-              />
-              <HeroTile label="P70 RAG-core" value={run.ragCore.p70} withinBudget={run.ragCore.p70 <= RAG_CORE_BUDGET_MS} />
-              <HeroTile
-                label="P100 RAG-core"
-                value={run.ragCore.p100}
-                withinBudget={run.ragCore.p100 <= RAG_CORE_BUDGET_MS}
-              />
+            <section className="mt-8 rounded-xl border border-hairline bg-surface-1 p-6 sm:p-8">
+              <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-ink-muted">
+                    P100 RAG-core · maximum observed
+                  </p>
+                  <p className="mt-3 flex items-baseline gap-2">
+                    <span className="display text-[56px] leading-none text-ink sm:text-[68px]">
+                      {run.ragCore.p100.toFixed(1)}
+                    </span>
+                    <span className="text-lg text-ink-muted">ms</span>
+                  </p>
+                  <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-secondary">
+                    The slowest of {run.queryCount} measured queries
+                    {run.ragCore.p100 <= RAG_CORE_BUDGET_MS
+                      ? ` — every query in the set completed inside the ${RAG_CORE_BUDGET_MS} ms budget.`
+                      : ` — the tail exceeds the ${RAG_CORE_BUDGET_MS} ms budget.`}{" "}
+                    P50 and P70 are in the percentile table below.
+                  </p>
+                </div>
+
+                <span
+                  className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium uppercase tracking-[0.12em]"
+                  style={{
+                    color:
+                      run.ragCore.p100 <= RAG_CORE_BUDGET_MS
+                        ? "var(--status-good)"
+                        : "var(--status-critical)",
+                    background:
+                      run.ragCore.p100 <= RAG_CORE_BUDGET_MS
+                        ? "rgba(12,163,12,0.12)"
+                        : "rgba(208,59,59,0.12)",
+                  }}
+                >
+                  <svg width="13" height="13" viewBox="0 0 12 12" aria-hidden fill="none">
+                    {run.ragCore.p100 <= RAG_CORE_BUDGET_MS ? (
+                      <path
+                        d="M2.5 6.4l2.4 2.4L9.6 3.6"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    ) : (
+                      <>
+                        <path d="M6 3v3.6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                        <circle cx="6" cy="9" r="0.9" fill="currentColor" />
+                      </>
+                    )}
+                  </svg>
+                  {run.ragCore.p100 <= RAG_CORE_BUDGET_MS ? "Within budget" : "Over budget"}
+                </span>
+              </div>
             </section>
 
             <section className="mt-4 rounded-xl border border-hairline bg-surface-1 p-5 sm:p-6">
@@ -94,7 +137,7 @@ export default function Benchmark() {
             </section>
 
             <section className="mt-4 grid gap-4 lg:grid-cols-2">
-              <div className="rounded-xl border border-hairline bg-surface-1 p-5 sm:p-6">
+              <div className="min-w-0 rounded-xl border border-hairline bg-surface-1 p-5 sm:p-6">
                 <p className="text-[11px] uppercase tracking-[0.16em] text-ink-muted">Percentile table</p>
                 <div className="-mx-1 mt-4 overflow-x-auto px-1">
                 <table className="w-full min-w-[26rem] text-sm">
@@ -120,7 +163,7 @@ export default function Benchmark() {
                 </p>
               </div>
 
-              <div className="rounded-xl border border-hairline bg-surface-1 p-5 sm:p-6">
+              <div className="min-w-0 rounded-xl border border-hairline bg-surface-1 p-5 sm:p-6">
                 <p className="text-[11px] uppercase tracking-[0.16em] text-ink-muted">
                   Median by RAG-core stage
                 </p>
@@ -201,6 +244,8 @@ export default function Benchmark() {
           </>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 }
@@ -226,39 +271,9 @@ function Row({
   );
 }
 
-function HeroTile({
-  label,
-  value,
-  emphasis,
-  withinBudget,
-}: {
-  label: string;
-  value: number;
-  emphasis?: boolean;
-  withinBudget: boolean;
-}) {
-  return (
-    <div className="rounded-xl border border-hairline bg-surface-1 p-5">
-      <p className="text-[11px] uppercase tracking-[0.14em] text-ink-muted">{label}</p>
-      <p className="mt-2 flex items-baseline gap-1.5">
-        <span className={`display text-ink ${emphasis ? "text-[48px]" : "text-[34px]"} leading-none`}>
-          {value.toFixed(1)}
-        </span>
-        <span className="text-sm text-ink-muted">ms</span>
-      </p>
-      <p
-        className="mt-2 text-[11px] uppercase tracking-[0.08em]"
-        style={{ color: withinBudget ? "var(--status-good)" : "var(--status-critical)" }}
-      >
-        {withinBudget ? "within budget" : "over budget"}
-      </p>
-    </div>
-  );
-}
-
 function Meta({ label, value }: { label: string; value: string }) {
   return (
-    <div>
+    <div className="min-w-0">
       <dt className="text-ink-muted">{label}</dt>
       <dd className="num mt-0.5 truncate text-ink-secondary">{value}</dd>
     </div>

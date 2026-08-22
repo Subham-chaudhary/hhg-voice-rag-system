@@ -23,11 +23,11 @@ export function SampleQuestions({
         No microphone needed — these run the same pipeline through the text path.
       </p>
 
-      <ul className="mt-3.5 grid gap-1.5">
+      <ul className="mt-3.5 flex flex-col gap-1.5">
         {SAMPLE_QUERIES.map((sample) => {
           const style = INTENT_STYLE[sample.intent];
           return (
-            <li key={sample.id}>
+            <li key={sample.id} className="min-w-0">
               <button
                 type="button"
                 disabled={busy}

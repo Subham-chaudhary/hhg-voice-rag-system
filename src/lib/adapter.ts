@@ -1,6 +1,8 @@
 import {
   ALL_STAGES,
+  CORE_KEYS,
   ChunkRepresentation,
+  CoreInfo,
   Evidence,
   LatencyBreakdown,
   QueryResult,
@@ -171,6 +173,66 @@ function normaliseLatency(source: Raw): LatencyBreakdown {
   return { ...stages, rag_core: Math.max(0, ragCore), voice_e2e: voiceE2E };
 }
 
+const CORE_ALIASES: Record<StageKey, string[]> = {
+  stt: ["stt", "asr", "speech", "transcribe", "transcription"],
+  validate: ["validate", "guard", "guardrail", "guardrail_in", "safety"],
+  embed: ["embed", "embedding", "encoder", "embedder"],
+  retrieve: ["retrieve", "retrieval", "vector", "index", "search", "rag"],
+  rank: ["rank", "rerank", "fusion", "fuse", "rrf"],
+  generate: ["generate", "llm", "generator", "generation", "answer"],
+  ground: ["ground", "grounding", "verifier", "guardrail_out", "gate"],
+};
+
+function normaliseCores(source: Raw, latency: LatencyBreakdown): CoreInfo[] {
+  const container = pick(source, "cores", "plugins", "components", "stack", "engines");
+  if (!isObject(container)) return [];
+
+  const cores: CoreInfo[] = [];
+
+  for (const key of CORE_KEYS) {
+    const entry = pick(container, ...CORE_ALIASES[key]);
+    if (entry === undefined) continue;
+
+    if (typeof entry === "string") {
+      cores.push({
+        key,
+        id: entry,
+        provider: entry.includes(".") ? entry.split(".")[0] : null,
+        model: null,
+        version: null,
+        status: "active",
+        latencyMs: latency[key as keyof LatencyBreakdown] as number | undefined,
+      });
+      continue;
+    }
+
+    if (!isObject(entry)) continue;
+
+    const id = asString(pick(entry, "id", "name", "plugin", "impl", "implementation"));
+    if (!id) continue;
+
+    const rawStatus = asString(pick(entry, "status", "state")).toLowerCase();
+    const status: CoreInfo["status"] =
+      rawStatus === "fallback" || rawStatus === "degraded"
+        ? "fallback"
+        : rawStatus === "disabled" || rawStatus === "off" || rawStatus === "skipped"
+          ? "disabled"
+          : "active";
+
+    cores.push({
+      key,
+      id,
+      provider: asString(pick(entry, "provider", "vendor", "backend")) || (id.includes(".") ? id.split(".")[0] : null),
+      model: asString(pick(entry, "model", "checkpoint", "revision")) || null,
+      version: asString(pick(entry, "version", "ver", "build")) || null,
+      status,
+      latencyMs: latency[key as keyof LatencyBreakdown] as number | undefined,
+    });
+  }
+
+  return cores;
+}
+
 function normaliseEvidence(source: Raw, citedIds: string[]): Evidence[] {
   const rawList =
     pick(source, "evidence", "chunks", "contexts", "sources", "documents", "passages", "hits") ??
@@ -227,7 +289,7 @@ function normaliseEvidence(source: Raw, citedIds: string[]): Evidence[] {
   });
 }
 
-export function adaptQueryResponse(payload: unknown, source: "live" | "mock" = "live"): QueryResult {
+export function adaptQueryResponse(payload: unknown): QueryResult {
   const root = isObject(payload) ? payload : {};
   const body = isObject(pick(root, "result", "data", "response"))
     ? (pick(root, "result", "data", "response") as Raw)
@@ -253,6 +315,12 @@ export function adaptQueryResponse(payload: unknown, source: "live" | "mock" = "
         "insufficient_evidence"
       : null;
 
+  const latency = normaliseLatency(body);
+  const simulated =
+    pick(root, "simulated") === true ||
+    pick(body, "simulated") === true ||
+    asString(pick(root, "source", "mode")).toLowerCase() === "simulated";
+
   return {
     status,
     answer,
@@ -263,13 +331,15 @@ export function adaptQueryResponse(payload: unknown, source: "live" | "mock" = "
     threshold: asNumber(pick(body, "threshold", "confidence_threshold", "gate")) ?? null,
     evidence,
     evidenceIds: evidenceIds.length ? evidenceIds : evidence.filter((e) => e.cited).map((e) => e.id),
-    latency: normaliseLatency(body),
+    latency,
+    cores: normaliseCores(body, latency),
     refusalReason: asString(pick(body, "refusal_message", "message", "detail")) || null,
     refusalCode,
     fallback: (asString(pick(body, "fallback", "fallback_mode")) || null) as QueryResult["fallback"],
     traceId: asString(pick(body, "trace_id", "traceId", "request_id")) || null,
     model: asString(pick(body, "model", "llm", "generator")) || null,
-    source,
+    source: simulated ? "simulated" : "live",
+    fallbackReason: asString(pick(root, "fallback_reason"), "") || null,
     receivedAt: Date.now(),
   };
 }

@@ -52,6 +52,36 @@ export const STAGE_COLOR: Record<StageKey, string> = {
 
 export const RAG_CORE_BUDGET_MS = 200;
 
+export const CORE_KEYS: StageKey[] = [
+  "stt",
+  "validate",
+  "embed",
+  "retrieve",
+  "rank",
+  "generate",
+  "ground",
+];
+
+export const CORE_LABEL: Record<StageKey, string> = {
+  stt: "ASR core",
+  validate: "Guard core",
+  embed: "Embed core",
+  retrieve: "Retrieval core",
+  rank: "Fusion core",
+  generate: "LLM core",
+  ground: "Grounding core",
+};
+
+export interface CoreInfo {
+  key: StageKey;
+  id: string;
+  provider: string | null;
+  model: string | null;
+  version: string | null;
+  status: "active" | "fallback" | "disabled";
+  latencyMs?: number;
+}
+
 export type ChunkRepresentation =
   | "atomic"
   | "sentence_window"
@@ -102,6 +132,8 @@ export interface Evidence {
   cited: boolean;
 }
 
+export type ResponseSource = "live" | "simulated";
+
 export interface QueryResult {
   status: QueryStatus;
   answer: string;
@@ -113,12 +145,14 @@ export interface QueryResult {
   evidence: Evidence[];
   evidenceIds: string[];
   latency: LatencyBreakdown;
+  cores: CoreInfo[];
   refusalReason: string | null;
   refusalCode: RefusalCode | null;
   fallback: "extractive" | "cached" | null;
   traceId: string | null;
   model: string | null;
-  source: "live" | "mock";
+  source: ResponseSource;
+  fallbackReason: string | null;
   receivedAt: number;
 }
 

@@ -1,6 +1,6 @@
 # Zenith ⇄ pipeline API contract
 
-The UI on the `ui` branch is built against this contract and ships a mock server that
+The UI on the `ui` branch is built against this contract and ships a fallback responder that
 implements it exactly. Match this shape and integration is a one-line environment change.
 
 **Base URL** is whatever `BACKEND_URL` points at. The UI proxies through its own
@@ -103,6 +103,37 @@ parentheses are also understood):
 
 Send `parent_text` on `parent_child` hits — the UI renders the expanded parent inline.
 
+### `cores` — which plugin served each stage
+
+Every pipeline stage is a swappable core. Declare the one that actually ran, per request:
+
+```json
+"cores": {
+  "asr":       { "id": "sarvam.saarika-v2",    "provider": "sarvam",      "model": "saarika:v2", "version": "2.1" },
+  "validate":  { "id": "guard.rules-v1",       "provider": "internal",    "version": "1.0" },
+  "embed":     { "id": "e5.multilingual-base", "provider": "huggingface", "model": "intfloat/multilingual-e5-base" },
+  "retrieve":  { "id": "qdrant.hybrid-rrf",    "provider": "qdrant",      "version": "1.12" },
+  "rank":      { "id": "fusion.rrf-diversity", "provider": "internal",    "version": "1.0" },
+  "generate":  { "id": "groq.gpt-oss-20b",     "provider": "groq",        "model": "openai/gpt-oss-20b" },
+  "ground":    { "id": "gate.token-coverage",  "provider": "internal",    "version": "1.0" }
+}
+```
+
+Keys map 1:1 onto the pipeline stages. These aliases are also accepted:
+`asr`/`stt`/`speech` · `validate`/`guard`/`safety` · `embed`/`embedding`/`encoder` ·
+`retrieve`/`retrieval`/`vector`/`rag` · `rank`/`rerank`/`fusion`/`rrf` ·
+`generate`/`llm`/`generator` · `ground`/`grounding`/`verifier`/`gate`.
+
+A core may also be a bare string (`"fusion": "internal.rrf-diversity"`), in which case the text
+before the first dot is read as the provider.
+
+Set `"status": "disabled"` on a core that did not run this request — the UI renders it as
+**not run**, which is exactly the story you want for an unsafe input blocked before retrieval.
+`"status": "fallback"` marks a degraded path. Anything else reads as active.
+
+This is the whole plugin story as far as the UI is concerned: swap Sarvam for ElevenLabs or Groq
+for a local model, change the `id` here, and the interface reports it without a code change.
+
 ### Refusal
 
 ```json
@@ -200,5 +231,11 @@ cp .env.example .env.local     # set BACKEND_URL
 npm run dev
 ```
 
-The header has a **MOCK / LIVE** switch. Mock runs entirely in the browser process against
-the built-in scenarios, so the interface stays demoable whether or not the pipeline is up.
+There is no mock switch. Every request goes to the live pipeline; if `BACKEND_URL` is unset, the
+backend times out, returns a non-2xx, or returns something that is not JSON, the app answers from
+a built-in simulated responder instead and marks the response:
+
+- a **SIMULATED** pill in the header, on the answer card (with the reason), and on the latency strip
+- excluded from the session log, from the P100 statistic, and from the exported JSON entirely
+
+So a demo never dead-ends, and no fabricated number can be mistaken for a measurement.

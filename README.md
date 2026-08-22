@@ -15,7 +15,8 @@ mic ─► Sarvam STT ─► validate ─► e5 embed ─► Qdrant hybrid ─�
 
 ## Integrate in three steps
 
-**1 — Run it.** It needs no backend. Mock mode is the default and implements the entire contract.
+**1 — Run it.** It needs no backend. With `BACKEND_URL` unset every request is served by the
+built-in simulated responder, which implements the entire contract.
 
 ```bash
 npm install
@@ -30,7 +31,8 @@ npm run dev
 ```
 
 Requests proxy through this app's own `/api/query`, so **the backend needs no CORS setup**.
-The header has a MOCK / LIVE switch; LIVE hits your endpoint, MOCK stays self-contained.
+There is no mock switch — every request goes live, and only an unreachable, timed-out, non-2xx or
+non-JSON backend falls back to the simulated responder. See *Automatic fallback* below.
 
 **3 — Return this shape from `POST /query`.**
 
@@ -76,9 +78,9 @@ That's it. Full spec, refusal and error examples, and every accepted field alias
 
 ---
 
-## The three fields that carry the submission
+## The four fields that carry the submission
 
-The brief asks for six things. Three are invisible unless the response carries the data:
+The brief asks for six things. Most are invisible unless the response carries the data:
 
 **`evidence[]` as objects, not just IDs.** `evidence_ids` alone cannot be rendered. The evidence
 panel and retrieval inspector are what make the *vast chunking* requirement visible to a judge.
@@ -97,6 +99,33 @@ and shown separately.
 | `parent_child` | D · Parent-child | | | |
 
 Send `parent_text` on `parent_child` hits — the UI expands the parent inline.
+
+**`cores` — the plugin that served each stage.** Every stage is a swappable core; declare the one
+that actually ran and the UI reports it per request:
+
+```json
+"cores": {
+  "asr":      { "id": "sarvam.saarika-v2",    "provider": "sarvam",   "version": "2.1" },
+  "embed":    { "id": "e5.multilingual-base", "provider": "huggingface" },
+  "retrieve": { "id": "qdrant.hybrid-rrf",    "provider": "qdrant",   "version": "1.12" },
+  "generate": { "id": "groq.gpt-oss-20b",     "provider": "groq" }
+}
+```
+
+`status: "disabled"` renders as **not run** — use it for stages skipped by a guardrail.
+Swapping Sarvam for ElevenLabs or Groq for a local model changes the `id` and nothing else.
+Full key list and aliases in the contract doc.
+
+## Automatic fallback
+
+There is no mock mode to switch into. Every request goes to the live pipeline. If `BACKEND_URL`
+is unset, or the backend is unreachable, times out, returns non-2xx, or returns something that
+is not JSON, the app answers from the simulated responder and marks it:
+
+- a **SIMULATED** pill in the header, on the answer card (with the reason), and on the latency strip
+- **excluded** from the session log, from the P100 statistic, and from the exported JSON
+
+A demo never dead-ends, and no fabricated number can be mistaken for a measurement.
 
 ## Requests
 
@@ -181,7 +210,7 @@ fills in; no UI change needed.
 | `BACKEND_QUERY_PATH` | `/query` | path appended to `BACKEND_URL` |
 | `BACKEND_TIMEOUT_MS` | `20000` | upstream timeout before the error state |
 | `BACKEND_API_KEY` | unset | sent as `Authorization: Bearer …` if set |
-| `NEXT_PUBLIC_API_BASE` | unset | bypass the proxy, call the backend from the browser (needs CORS) |
+| `NEXT_PUBLIC_PUBLIC_URL` | unset | public address the QR code encodes; falls back to the browser origin |
 
 ## What the interface shows
 
@@ -193,6 +222,7 @@ fills in; no UI change needed.
 | P50 / P70 / P100 | `/benchmark` — percentiles, distribution, per-stage medians, per-language table |
 | Harness | Stage rail mirrors the backend state machine; skipped stages render as `skipped` |
 | Guardrails | Refusal is a first-class state with its own copy, the confidence score, the gate it failed, and the evidence it rejected |
+| Plugin cores | A Cores panel naming the plugin, provider and version that served each stage of the request |
 
 ## Layout
 
@@ -206,11 +236,12 @@ src/
   components/               LatencyStrip · EvidencePanel · AnswerCard · Composer
                             StageRail · Histogram · SessionHistory · SampleQuestions · TopBar
   lib/
-    contract.ts             shared types, stage metadata, refusal copy
+    contract.ts             shared types, stage + core metadata, refusal copy
     adapter.ts              backend response → UI model  ← the integration seam
     client.ts               fetch with timeout + one retry
     audio.ts                capture → 16 kHz mono resample → WAV encode, in-browser
-    mock.ts                 scenario responses
+    store.ts                per-request latency log in localStorage (live results only)
+    mock.ts                 simulated fallback responses
   data/samples.ts           one-click demo queries
 docs/api-contract.md
 benchmarks/results/
@@ -223,6 +254,8 @@ benchmarks/results/
 - **A text path and one-click samples sit alongside the mic**, because most people opening a live link won't grant microphone permission — and a judge who can't get past a permission prompt sees a broken app.
 - **Two latency numbers, never one.** RAG-core is the `<200 ms` claim; voice end-to-end includes networked STT and is reported separately and visibly.
 - **Mock mode is a shipped feature, not a stub** — answered, low-confidence refusal, off-topic, unsafe-block and extractive-fallback scenarios with realistic per-stage delays.
+- **Every live request is logged to `localStorage`** — capped at 500, wrapped in try/catch so private mode degrades quietly. Export writes the harness's own JSON shape, so a session log can be dropped straight into `benchmarks/results/`. Simulated responses are never written.
+- **A QR code opens the console on a phone**, encoding `NEXT_PUBLIC_PUBLIC_URL` or the current origin, and warning when the target is localhost and therefore unreachable from a handset.
 - Next.js 16 · React 19 · TypeScript · Tailwind v4. No component library, no chart library.
 - Responsive from 320 px up; verified zero horizontal overflow at 320 / 375 / 390 / 414 / 820 / 1440 px.
 - Stage colours are a single-hue ordinal ramp validated for lightness monotonicity and contrast against the page surface — pipeline stages are ordered in time, so they get one hue stepped, not seven competing hues.
