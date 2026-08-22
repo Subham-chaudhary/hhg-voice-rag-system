@@ -121,6 +121,65 @@ around so that phase doesn't start from zero.
 
 ---
 
+# Chunking & Data Strategy
+
+## Why not the whole dataset
+
+- MSMARCO-XI is **55 GB** across 14 languages
+- `hintrain.parquet` alone: **778,638 rows in a single Parquet row group — 9.7 GB uncompressed**
+- Streaming APIs read at row-group granularity, so fetching row 1 materialises all 9.7 GB → OOM on any 12 GB runtime
+- **Solution:** DuckDB with a hard `memory_limit`, `LIMIT n` to stop early, one language file resident at a time, deleted after use
+
+## Five retrieval representations
+
+Same passage, indexed multiple ways — different questions need different shapes.
+
+| Strategy | What's embedded | Why |
+|---|---|---|
+| **atomic** | Whole passage | Baseline; full context in one unit |
+| **window** | 3 sentences, 1-sentence overlap | Precision on long passages; script-aware split on `।` `॥` |
+| **enriched** | `query + passage`, passage stored | Free doc2query — the dataset ships real human questions |
+| **xling** | English twin of the gold passage | Cross-lingual retrieval; shared canonical `query_id` |
+| **query** | The question itself; `Answer` in payload | Fast path — near-paraphrase answers without an LLM call |
+
+**Parent–child comes free:** windows carry `parent_id`. Retrieve the narrow unit, answer from the wide one — no extra vectors.
+
+**Window built only on above-median-length passages.** Short passages gain nothing and cost points.
+
+## Storage design
+
+- **`dense_256`** — wide stage. int8-quantized, `always_ram`, originals on disk
+- **`dense_1024`** — rerank stage. `m=0` → no HNSW graph, full precision, rescore-only
+- **`sparse_bm25`** — lexical, server-side IDF
+- One embedding pass at 1024-d; 256-d derived by **slice-then-normalize** (Matryoshka). Reversing that order is a silent recall bug
+- Payload indexed on `lang`, `strategy`, `tier`, `qid` — filtered search keeps recall instead of post-filter collapse
+
+## Retrieval integrity
+
+- **Distractors are indexed.** Gold + 2 non-gold per query. Indexing only gold makes Recall@10 ≈ 1.0 by construction and meaningless
+- **`is_selected` is an evaluation label only** — never a filter or boost in the production path
+- Point IDs are UUID5 over `{lang}|{strategy}|{qid}|{pid}` — deterministic (re-runs overwrite, never duplicate) and language-prefixed, since `query_id` repeats across languages
+
+## Corpus
+
+**53,444 points · 7 Indian languages + English twins**
+
+| | hi | kn | ta | ml | mr | or | bn | en* |
+|---|---|---|---|---|---|---|---|---|
+| points | 16,966 | 9,110 | 6,195 | 6,483 | 4,000 | 2,400 | 2,400 | 5,890 |
+
+\* cross-lingual twins pooled from hi/ta/ml, not separately ingested.
+
+Priority tier (hi, kn, ta, ml) gets all five strategies; coverage tier (mr, or, bn) gets atomic + query. Sampling is a documented slice, not the full corpus — the pipeline is corpus-size-independent.
+
+**Model:** `jina-embeddings-v5-text-small`, revision pinned, `task=retrieval` with `document`/`query` prompts. Corpus and runtime queries use the same model and revision — recorded in `manifest.json`, asserted on boot.
+
+---
+
+Two things to fill in before you publish: **Recall@10 per strategy** and **P50/P70/P100**. Those are graded requirements and the table above is where they belong — a strategy list without measured numbers reads as a plan, with them it reads as an ablation. `is_gold` gives you the ground truth for free.
+
+---
+
 ## Testing
 
 ```bash
