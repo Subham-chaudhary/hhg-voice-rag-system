@@ -42,7 +42,7 @@ QDRANT_URL
 QDRANT_API_KEY
 QDRANT_COLLECTION       = msmarco_xi
 EMBED_DIM               = 256
-JINA_MODEL              = jina-embeddings-v3
+JINA_MODEL              = jina-embeddings-v5-text-small
 JINA_RERANK_MODEL       = jina-reranker-v2-base-multilingual
 TAU_HIGH                = 0.92
 TAU_GOOD                = 0.78
@@ -70,6 +70,32 @@ they're left for you (or ask me to run them once keys are in hand).
 For `netlify dev`, a local `.env` file works too (already gitignored via
 the existing `.env*` rule). Copy the var names above into a `.env` at the
 repo root with real or dummy values.
+
+### Embedding model: switched to `jina-embeddings-v5-text-small`
+
+Both sides — `JINA_MODEL` here and `JINA_MODEL_ID` in
+`data_ingestion/ingest_msmarco.ipynb` — were switched together from v3 to
+`jina-embeddings-v5-text-small`, since this was decided before any real
+ingestion had run (cheap to change now, expensive after). Verified before
+switching: same 1024-native dimension (Matryoshka math and the Qdrant
+`dense_256`/`dense_1024` schema are unaffected), and the REST API keeps
+v3's `task: "retrieval.query"`/`"retrieval.passage"` string convention on
+v5 too, so `lib/jina.ts` didn't need a code change beyond the model name.
+
+Local `.encode()` in Colab is a genuinely different call shape on v5,
+though — `task="retrieval"` + `prompt_name="query"`/`"document"` instead of
+v3's single `task="retrieval.passage"` string — the notebook's `encode()`
+helper now maps the (unchanged) `CORPUS_TASK`/`QUERY_TASK` constants to
+`prompt_name` via `_PROMPT_NAME`.
+
+**Not yet confirmed: v5-text-small's Indic-language coverage against this
+project's actual language set** (Hindi, Kannada, Tamil, Telugu, Malayalam,
+Marathi, Odia, Konkani, Bengali). v5's marketing claims 93-language
+support but nothing specific to these languages was found. This is exactly
+what Phase 0's per-language smoke test (§9 of `claude/ingestion.md`, "print
+the retrieved text and read it") and `test/parity.test.ts` exist to catch
+— watch both closely on the first real ingestion run, not just the API
+response shape.
 
 ## 3. `manifest.json` is a placeholder right now
 
@@ -99,10 +125,10 @@ npm run functions:dev        # netlify dev
 Then, per `claude/serverless.md` §8:
 
 ```bash
-curl -X POST localhost:8888/api/stt      -F file=@sample_hi.webm -F language_code=unknown
-curl -X POST localhost:8888/api/embed    -H 'content-type: application/json' -d '{"text":"मुझे बताओ"}'
-curl -X POST localhost:8888/api/search   -H 'content-type: application/json' -d '{"transcript":"..."}'
-curl      localhost:8888/api/health
+curl -X POST localhost:8888/fn/stt      -F file=@sample_hi.webm -F language_code=unknown
+curl -X POST localhost:8888/fn/embed    -H 'content-type: application/json' -d '{"text":"मुझे बताओ"}'
+curl -X POST localhost:8888/fn/search   -H 'content-type: application/json' -d '{"transcript":"..."}'
+curl      localhost:8888/fn/health
 ```
 
 If `netlify dev` isn't practical in your environment either, every function
@@ -112,11 +138,11 @@ without the CLI at all. That's what this session actually used to verify
 the six functions, hitting the **real** Jina endpoints with a deliberately
 invalid key:
 
-- `/api/health` → `503 { status: "down", jina: {...}, qdrant: {...}, sarvam: {...} }` — no crash.
-- `/api/embed` with `text: ""` → `400` with the zod error.
-- `/api/rerank` with a bad key → real `401 AUTH_INVALID_API_KEY` from `api.jina.ai`, caught and returned as a typed `{status:"error"}`, not thrown.
-- `/api/search` with `"ab"` → `{status:"refused", reason:"too_short"}` with only a `rag_core` timing — confirming zero API calls were spent.
-- `/api/search` with a real transcript and bad/unreachable creds → embed fails → `degraded:"sparse_only"` path takes over → Qdrant also unreachable → typed `{status:"error", reason:"qdrant_unreachable"}`. The degradation ladder runs exactly as designed, never throwing.
+- `/fn/health` → `503 { status: "down", jina: {...}, qdrant: {...}, sarvam: {...} }` — no crash.
+- `/fn/embed` with `text: ""` → `400` with the zod error.
+- `/fn/rerank` with a bad key → real `401 AUTH_INVALID_API_KEY` from `api.jina.ai`, caught and returned as a typed `{status:"error"}`, not thrown.
+- `/fn/search` with `"ab"` → `{status:"refused", reason:"too_short"}` with only a `rag_core` timing — confirming zero API calls were spent.
+- `/fn/search` with a real transcript and bad/unreachable creds → embed fails → `degraded:"sparse_only"` path takes over → Qdrant also unreachable → typed `{status:"error", reason:"qdrant_unreachable"}`. The degradation ladder runs exactly as designed, never throwing.
 
 ## 5. Design decisions not fully specified in `claude/serverless.md`
 
