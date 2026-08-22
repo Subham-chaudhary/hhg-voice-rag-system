@@ -1,13 +1,10 @@
 import { adaptQueryResponse } from "./adapter";
 import { QueryResult } from "./contract";
 
-export type PipelineMode = "mock" | "live";
-
 export interface RunQueryInput {
   transcript?: string;
   audio?: Blob;
   language?: string;
-  mode: PipelineMode;
   signal?: AbortSignal;
 }
 
@@ -16,7 +13,7 @@ export interface RunQueryOutput extends QueryResult {
   attempts: number;
 }
 
-const REQUEST_TIMEOUT_MS = 20000;
+const REQUEST_TIMEOUT_MS = 25000;
 const RETRYABLE = new Set([408, 425, 429, 500, 502, 503, 504]);
 
 class HttpError extends Error {
@@ -28,32 +25,23 @@ class HttpError extends Error {
   }
 }
 
-function endpoint(mode: PipelineMode): string {
-  const base = process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "");
-  if (mode === "live" && base) return `${base}/query`;
-  return "/api/query";
-}
-
-async function postOnce(input: RunQueryInput, attempt: number): Promise<unknown> {
+async function postOnce(input: RunQueryInput): Promise<unknown> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-
   const onAbort = () => controller.abort();
   input.signal?.addEventListener("abort", onAbort);
 
   try {
-    const url = new URL(endpoint(input.mode), window.location.origin);
-    url.searchParams.set("mode", input.mode);
-
     let response: Response;
+
     if (input.audio) {
       const form = new FormData();
       form.append("audio", input.audio, "query.wav");
       if (input.language) form.append("language", input.language);
       if (input.transcript) form.append("transcript", input.transcript);
-      response = await fetch(url, { method: "POST", body: form, signal: controller.signal });
+      response = await fetch("/api/query", { method: "POST", body: form, signal: controller.signal });
     } else {
-      response = await fetch(url, {
+      response = await fetch("/api/query", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ transcript: input.transcript ?? "", language: input.language }),
@@ -63,14 +51,13 @@ async function postOnce(input: RunQueryInput, attempt: number): Promise<unknown>
 
     if (!response.ok) {
       const detail = await response.text().catch(() => "");
-      throw new HttpError(response.status, detail.slice(0, 240) || `Backend returned ${response.status}`);
+      throw new HttpError(response.status, detail.slice(0, 240) || `Request failed (${response.status})`);
     }
 
     return await response.json();
   } finally {
     clearTimeout(timer);
     input.signal?.removeEventListener("abort", onAbort);
-    void attempt;
   }
 }
 
@@ -86,8 +73,8 @@ export async function runQuery(input: RunQueryInput): Promise<RunQueryOutput> {
 
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     try {
-      const payload = await postOnce(input, attempt);
-      const result = adaptQueryResponse(payload, input.mode === "mock" ? "mock" : "live");
+      const payload = await postOnce(input);
+      const result = adaptQueryResponse(payload);
       return {
         ...result,
         transcript: result.transcript || input.transcript || "",
@@ -119,12 +106,14 @@ export async function runQuery(input: RunQueryInput): Promise<RunQueryOutput> {
     evidence: [],
     evidenceIds: [],
     latency: { rag_core: 0 },
+    cores: [],
     refusalReason: message,
     refusalCode: null,
     fallback: null,
     traceId: null,
     model: null,
-    source: input.mode === "mock" ? "mock" : "live",
+    source: "simulated",
+    fallbackReason: "the app could not reach its own API route",
     receivedAt: Date.now(),
     clientRoundTripMs: Math.round((performance.now() - started) * 10) / 10,
     attempts: 2,

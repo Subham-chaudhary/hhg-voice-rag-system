@@ -74,24 +74,30 @@ export function Histogram({
           ))}
         </div>
 
-        {markers.map((marker) => (
-          <div
-            key={marker.label}
-            className="pointer-events-none absolute -top-1 bottom-0"
-            style={{ left: `${position(marker.value)}%` }}
-          >
+        {markers.map((marker) => {
+          const left = position(marker.value);
+          return (
             <div
-              className="h-full w-px"
-              style={{ background: marker.emphasis ? "var(--coral)" : "var(--line-strong)" }}
-            />
-            <span
-              className="absolute -top-1 left-1.5 whitespace-nowrap text-[10px] uppercase tracking-[0.08em]"
-              style={{ color: marker.emphasis ? "var(--coral)" : "var(--ink-muted)" }}
+              key={marker.label}
+              className="pointer-events-none absolute -top-1 bottom-0"
+              style={{ left: `${left}%` }}
             >
-              {marker.label}
-            </span>
-          </div>
-        ))}
+              <div
+                className="h-full w-px"
+                style={{ background: marker.emphasis ? "var(--coral)" : "var(--line-strong)" }}
+              />
+              <span
+                className="absolute -top-1 whitespace-nowrap text-[10px] uppercase tracking-[0.08em]"
+                style={{
+                  color: marker.emphasis ? "var(--coral)" : "var(--ink-muted)",
+                  ...(left > 74 ? { right: 6 } : { left: 6 }),
+                }}
+              >
+                {marker.label}
+              </span>
+            </div>
+          );
+        })}
 
         {budget !== null && budget <= domainMax && (
           <div
@@ -100,10 +106,13 @@ export function Histogram({
           >
             <div className="h-full w-px" style={{ background: "var(--status-good)", opacity: 0.75 }} />
             <span
-              className="absolute -top-1 left-1.5 whitespace-nowrap text-[10px] uppercase tracking-[0.08em]"
-              style={{ color: "var(--status-good)" }}
+              className="absolute -top-1 whitespace-nowrap text-[10px] uppercase tracking-[0.08em]"
+              style={{
+                color: "var(--status-good)",
+                ...(position(budget) > 60 ? { right: 6 } : { left: 6 }),
+              }}
             >
-              {budget} ms budget
+              {budget} ms
             </span>
           </div>
         )}

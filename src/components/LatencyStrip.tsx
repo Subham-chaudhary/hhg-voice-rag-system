@@ -56,9 +56,11 @@ function buildSegments(latency: LatencyBreakdown): Segment[] {
 export function LatencyStrip({
   latency,
   clientRoundTripMs,
+  simulated = false,
 }: {
   latency: LatencyBreakdown;
   clientRoundTripMs?: number;
+  simulated?: boolean;
 }) {
   const [hovered, setHovered] = useState<string | null>(null);
   const segments = useMemo(() => buildSegments(latency), [latency]);
@@ -75,8 +77,26 @@ export function LatencyStrip({
           <p className="text-[11px] uppercase tracking-[0.16em] text-ink-muted">RAG-core latency</p>
           <p className="mt-1 text-xs text-ink-secondary">Transcript received → verified answer</p>
         </div>
-        <StatusBadge withinBudget={withinBudget} />
+        {simulated ? (
+          <span
+            className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.1em]"
+            style={{ color: "var(--coral)", background: "var(--coral-wash)" }}
+          >
+            Simulated
+          </span>
+        ) : (
+          <StatusBadge withinBudget={withinBudget} />
+        )}
       </header>
+
+      {simulated && (
+        <p
+          className="mt-3 rounded-lg px-3 py-2 text-[11px] leading-relaxed"
+          style={{ background: "var(--coral-wash)", color: "var(--ink-secondary)" }}
+        >
+          Fabricated timings from the fallback responder. Not a measurement, not counted anywhere.
+        </p>
+      )}
 
       <div className="mt-4 flex items-baseline gap-2">
         <span className="display text-[52px] leading-none text-ink">{core.toFixed(1)}</span>
@@ -131,7 +151,7 @@ export function LatencyStrip({
             key={segment.key}
             onMouseEnter={() => setHovered(segment.key)}
             onMouseLeave={() => setHovered(null)}
-            className="flex items-center gap-2.5 rounded-md px-1.5 py-1 transition-colors"
+            className="flex min-w-0 items-center gap-2.5 rounded-md px-1.5 py-1 transition-colors"
             style={{ background: hovered === segment.key ? "var(--surface-2)" : "transparent" }}
           >
             <span

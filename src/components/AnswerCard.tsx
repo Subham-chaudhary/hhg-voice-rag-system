@@ -4,18 +4,43 @@ import { QueryResult, REFUSAL_COPY } from "@/lib/contract";
 import { percent } from "@/lib/format";
 
 export function AnswerCard({ result }: { result: QueryResult }) {
-  if (result.status === "error") return <ErrorState result={result} />;
-  if (result.status === "refused") return <RefusalState result={result} />;
-  return <AnsweredState result={result} />;
+  const banner = result.source === "simulated" ? <SimulatedBanner result={result} /> : null;
+
+  if (result.status === "error") return <ErrorState result={result} banner={banner} />;
+  if (result.status === "refused") return <RefusalState result={result} banner={banner} />;
+  return <AnsweredState result={result} banner={banner} />;
+}
+
+function SimulatedBanner({ result }: { result: QueryResult }) {
+  return (
+    <div
+      className="mb-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 rounded-lg px-3.5 py-2.5"
+      style={{ background: "var(--coral-wash)", border: "1px solid rgba(251,113,133,0.32)" }}
+    >
+      <span
+        className="rounded-[3px] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em]"
+        style={{ background: "var(--coral)", color: "#20060c" }}
+      >
+        Simulated
+      </span>
+      <span className="text-[11px] leading-relaxed text-ink-secondary">
+        Fabricated response — the live pipeline was not reached
+        {result.fallbackReason ? ` (${result.fallbackReason})` : ""}. These latencies are not
+        measurements and are excluded from every statistic on this site.
+      </span>
+    </div>
+  );
 }
 
 function Shell({
   accent,
   eyebrow,
+  banner,
   children,
 }: {
   accent: string;
   eyebrow: React.ReactNode;
+  banner?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -23,16 +48,18 @@ function Shell({
       className="rise relative overflow-hidden rounded-xl border border-hairline bg-surface-1 p-5 sm:p-6"
       style={{ boxShadow: `inset 3px 0 0 0 ${accent}` }}
     >
+      {banner}
       <div className="flex flex-wrap items-center gap-2">{eyebrow}</div>
       {children}
     </section>
   );
 }
 
-function AnsweredState({ result }: { result: QueryResult }) {
+function AnsweredState({ result, banner }: { result: QueryResult; banner?: React.ReactNode }) {
   return (
     <Shell
       accent="var(--amber)"
+      banner={banner}
       eyebrow={
         <>
           <Tag color="var(--amber-bright)" background="var(--amber-wash)">
@@ -62,7 +89,7 @@ function AnsweredState({ result }: { result: QueryResult }) {
   );
 }
 
-function RefusalState({ result }: { result: QueryResult }) {
+function RefusalState({ result, banner }: { result: QueryResult; banner?: React.ReactNode }) {
   const copy = result.refusalCode
     ? REFUSAL_COPY[result.refusalCode]
     : { title: "Below the horizon", body: "The pipeline declined to answer this query." };
@@ -70,6 +97,7 @@ function RefusalState({ result }: { result: QueryResult }) {
   return (
     <Shell
       accent="var(--coral)"
+      banner={banner}
       eyebrow={
         <>
           <Tag color="var(--coral)" background="var(--coral-wash)">
@@ -99,10 +127,11 @@ function RefusalState({ result }: { result: QueryResult }) {
   );
 }
 
-function ErrorState({ result }: { result: QueryResult }) {
+function ErrorState({ result, banner }: { result: QueryResult; banner?: React.ReactNode }) {
   return (
     <Shell
       accent="var(--status-critical)"
+      banner={banner}
       eyebrow={
         <Tag color="var(--status-critical)" background="rgba(208,59,59,0.14)">
           <svg width="10" height="10" viewBox="0 0 12 12" aria-hidden fill="none" className="inline-block">
@@ -117,8 +146,8 @@ function ErrorState({ result }: { result: QueryResult }) {
         {result.refusalReason ?? "The pipeline did not return a usable response."}
       </p>
       <p className="mt-4 rounded-lg bg-surface-2 px-4 py-3 text-xs leading-relaxed text-ink-muted">
-        The harness retried once before surfacing this. Switch to mock mode to keep demonstrating the
-        interface while the backend is unavailable.
+        The harness retried once before surfacing this. The interface falls back to a simulated response
+        automatically when the pipeline is unreachable, so a demo never dead-ends.
       </p>
     </Shell>
   );

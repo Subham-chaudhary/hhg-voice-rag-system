@@ -1,37 +1,55 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { AnswerCard } from "@/components/AnswerCard";
 import { Composer } from "@/components/Composer";
+import { CoresPanel } from "@/components/CoresPanel";
 import { EvidencePanel } from "@/components/EvidencePanel";
+import { Footer } from "@/components/Footer";
+import { HhgRibbon } from "@/components/HhgRibbon";
 import { LatencyStrip } from "@/components/LatencyStrip";
+import { QrPanel } from "@/components/QrPanel";
 import { SampleQuestions } from "@/components/SampleQuestions";
-import { HistoryEntry, SessionHistory } from "@/components/SessionHistory";
+import { SessionHistory } from "@/components/SessionHistory";
 import { StageRail } from "@/components/StageRail";
-import { TopBar } from "@/components/TopBar";
+import { ConnectionState, TopBar } from "@/components/TopBar";
 import { SampleQuery } from "@/data/samples";
-import { PipelineMode, RunQueryOutput, runQuery } from "@/lib/client";
+import { RunQueryOutput, runQuery } from "@/lib/client";
+import { RAG_CORE_STAGES } from "@/lib/contract";
+import {
+  appendRecord,
+  clearRecords,
+  getServerSnapshot,
+  getSnapshot,
+  isPersistent,
+  subscribe,
+} from "@/lib/store";
+
+const noopSubscribe = () => () => {};
 
 type Phase = "idle" | "processing" | "done";
 
 export default function Console() {
-  const [mode, setMode] = useState<PipelineMode>("mock");
-  const [backendReachable, setBackendReachable] = useState<boolean | null>(null);
   const [phase, setPhase] = useState<Phase>("idle");
   const [result, setResult] = useState<RunQueryOutput | null>(null);
   const [transcript, setTranscript] = useState("");
   const [viaVoice, setViaVoice] = useState(false);
-  const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const records = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const persistent = useSyncExternalStore(noopSubscribe, isPersistent, () => true);
+  const [connection, setConnection] = useState<ConnectionState>({
+    configured: null,
+    lastSource: null,
+    reason: null,
+  });
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch("/api/query")
       .then((response) => response.json())
-      .then((info: { mode: string; backend: string | null }) => {
-        setBackendReachable(Boolean(info.backend));
-        if (info.backend) setMode("live");
-      })
-      .catch(() => setBackendReachable(false));
+      .then((info: { configured: boolean }) =>
+        setConnection((current) => ({ ...current, configured: info.configured })),
+      )
+      .catch(() => setConnection((current) => ({ ...current, configured: false })));
   }, []);
 
   const execute = useCallback(
@@ -45,45 +63,60 @@ export default function Console() {
         transcript: input.transcript,
         audio: input.audio,
         language: input.language,
-        mode,
       });
 
       setResult(output);
       setTranscript(output.transcript || input.transcript || "");
       setPhase("done");
-      setHistory((current) =>
-        [
-          {
+      setConnection((current) => ({
+        ...current,
+        lastSource: output.source,
+        reason: output.fallbackReason,
+      }));
+
+      if (output.source === "live") {
+        const stages = Object.fromEntries(
+          (["stt", ...RAG_CORE_STAGES] as const)
+            .map((stage) => [stage, output.latency[stage]])
+            .filter(([, value]) => typeof value === "number"),
+        );
+
+        appendRecord({
             id: `${output.receivedAt}-${Math.random().toString(36).slice(2, 7)}`,
+            at: output.receivedAt,
             transcript: output.transcript || input.transcript || "(spoken query)",
+            language: output.language,
             status: output.status,
+            viaVoice: input.spoken,
             ragCore: output.latency.rag_core,
             voiceE2E: output.latency.voice_e2e,
-            language: output.language,
-            viaVoice: input.spoken,
-            at: output.receivedAt,
-          },
-          ...current,
-        ].slice(0, 12),
-      );
+            stages,
+            clientRoundTripMs: output.clientRoundTripMs,
+          traceId: output.traceId,
+        });
+      }
 
       requestAnimationFrame(() =>
         resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }),
       );
     },
-    [mode],
+    [],
   );
 
   const busy = phase === "processing";
 
   return (
-    <div className="grain min-h-full">
-      <TopBar mode={mode} onModeChange={setMode} backendReachable={backendReachable} />
+    <div className="grain flex min-h-full flex-col">
+      <HhgRibbon />
+      <TopBar connection={connection} />
 
-      <main className="relative z-10 mx-auto max-w-6xl px-5 pb-24 pt-8 sm:px-8 sm:pt-12">
+      <main className="relative z-10 mx-auto w-full max-w-6xl flex-1 px-5 pb-16 pt-8 sm:px-8 sm:pt-12">
         {phase === "idle" && !result && (
           <section className="mb-8 max-w-2xl">
-            <h1 className="display text-[34px] leading-[1.1] text-ink sm:text-[44px]">
+            <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--amber)" }}>
+              Zenith · voice RAG console
+            </p>
+            <h1 className="display mt-3 text-[34px] leading-[1.1] text-ink sm:text-[44px]">
               Ask out loud.
               <br />
               <span style={{ color: "var(--amber)" }}>Answered only from evidence.</span>
@@ -92,6 +125,10 @@ export default function Console() {
               A voice-first retrieval console over MSMARCO-XI. Speech is transcribed, the corpus is searched
               across dense and sparse representations, and every sentence returned is traced back to a
               retrieved chunk — or nothing is returned at all.
+            </p>
+            <p className="mt-5 text-xs text-ink-muted">
+              Submitted by <span className="text-ink-secondary">Team The Higher Celestials</span> for Hacker
+              House Goa 2026, Shortlisting Task 2.
             </p>
           </section>
         )}
@@ -151,11 +188,21 @@ export default function Console() {
           <div className="contents lg:flex lg:flex-col lg:gap-4">
             {result && !busy && result.latency.rag_core > 0 && (
               <div className="order-5 lg:order-none">
-                <LatencyStrip latency={result.latency} clientRoundTripMs={result.clientRoundTripMs} />
+                <LatencyStrip
+                  latency={result.latency}
+                  clientRoundTripMs={result.clientRoundTripMs}
+                  simulated={result.source === "simulated"}
+                />
               </div>
             )}
 
-            <div className="order-7 lg:order-none">
+            {result && !busy && result.cores.length > 0 && (
+              <div className="order-7 lg:order-none">
+                <CoresPanel cores={result.cores} />
+              </div>
+            )}
+
+            <div className="order-8 lg:order-none">
               <SampleQuestions
                 busy={busy}
                 onPick={(sample: SampleQuery) =>
@@ -164,15 +211,23 @@ export default function Console() {
               />
             </div>
 
-            <div className="order-8 lg:order-none">
+            <div className="order-9 lg:order-none">
+              <QrPanel />
+            </div>
+
+            <div className="order-10 lg:order-none">
               <SessionHistory
-                entries={history}
-                onReplay={(entry) => void execute({ transcript: entry.transcript, spoken: false })}
+                records={records}
+                persistent={persistent}
+                onReplay={(record) => void execute({ transcript: record.transcript, spoken: false })}
+                onClear={clearRecords}
               />
             </div>
           </div>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }
