@@ -128,6 +128,28 @@ export const HealthResponseSchema = z.object({
   timings_ms: TimingsSchema,
 });
 
+// ---------------------------------------------------------------------------
+// /fn/samples — random real indexed queries for the "Try one" preset row
+// ---------------------------------------------------------------------------
+
+export const SampleItemSchema = z.object({
+  id: z.string(),
+  transcript: z.string(),
+  language: z.string(),
+  qid: z.string().optional(),
+});
+
+export const SamplesResponseSchema = z.object({
+  status: z.enum(["ok", "error"]),
+  samples: z.array(SampleItemSchema).optional(),
+  request_id: z.string(),
+  timings_ms: TimingsSchema,
+  error: z.string().optional(),
+});
+
+export type SampleItem = z.infer<typeof SampleItemSchema>;
+export type SamplesResponse = z.infer<typeof SamplesResponseSchema>;
+
 export type SearchRequest = z.infer<typeof SearchRequestSchema>;
 export type SearchResponse = z.infer<typeof SearchResponseSchema>;
 export type EvidenceItem = z.infer<typeof EvidenceItemSchema>;

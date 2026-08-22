@@ -7,8 +7,8 @@
  * here as one loud, labelled error instead of as a crash three components
  * deep during a demo.
  */
-import { SttResponseSchema, SearchResponseSchema } from "./rag-schemas";
-import type { SttResponse, SearchResponse } from "./rag-types";
+import { SttResponseSchema, SearchResponseSchema, SamplesResponseSchema } from "./rag-schemas";
+import type { SttResponse, SearchResponse, SamplesResponse } from "./rag-types";
 
 export class ContractMismatchError extends Error {
   constructor(
@@ -68,4 +68,18 @@ export async function search(
   }
   if (!res.ok) throw new Error(`/fn/search returned ${res.status}`);
   throw new ContractMismatchError(input.requestId, parsed.error.message);
+}
+
+/** Random real indexed queries for the "Try one" preset row. No request body — a plain GET. */
+export async function samples(signal: AbortSignal): Promise<SamplesResponse> {
+  const localId = crypto.randomUUID();
+  const res = await fetch("/fn/samples", { signal });
+  const json = await res.json().catch(() => null);
+  const parsed = SamplesResponseSchema.safeParse(json);
+  if (parsed.success) {
+    lastRequestId = parsed.data.request_id;
+    return parsed.data;
+  }
+  if (!res.ok) throw new Error(`/fn/samples returned ${res.status}`);
+  throw new ContractMismatchError(localId, parsed.error.message);
 }

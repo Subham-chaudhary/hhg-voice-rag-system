@@ -5,6 +5,8 @@ import {
   SearchStatusSchema,
   EvidenceItemSchema,
   HealthResponseSchema,
+  SampleItemSchema,
+  SamplesResponseSchema,
 } from "./rag-schemas";
 
 export type SttResponse = z.infer<typeof SttResponseSchema>;
@@ -12,6 +14,8 @@ export type SearchResponse = z.infer<typeof SearchResponseSchema>;
 export type SearchStatus = z.infer<typeof SearchStatusSchema>;
 export type Evidence = z.infer<typeof EvidenceItemSchema>;
 export type HealthResponse = z.infer<typeof HealthResponseSchema>;
+export type SampleItem = z.infer<typeof SampleItemSchema>;
+export type SamplesResponse = z.infer<typeof SamplesResponseSchema>;
 
 export const KNOWN_DEGRADED_REASONS = [
   "sparse_only",

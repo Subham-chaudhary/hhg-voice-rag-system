@@ -11,7 +11,6 @@ import { ResultCard } from "@/components/ResultCard";
 import { SessionLatencyPanel } from "@/components/SessionLatencyPanel";
 import { StageTimeline } from "@/components/StageTimeline";
 import { ConnectionState, TopBar } from "@/components/TopBar";
-import type { RagSample } from "@/data/rag-samples";
 import { languageName } from "@/lib/rag-types";
 import { Phase, useRag } from "@/lib/use-rag";
 
@@ -142,7 +141,7 @@ export default function Console() {
             <div className="order-8 lg:order-none">
               <RagSampleQuestions
                 busy={busy}
-                onPick={(sample: RagSample) => submitText(sample.transcript, sample.language)}
+                onPick={(sample) => submitText(sample.transcript, sample.language)}
               />
             </div>
 

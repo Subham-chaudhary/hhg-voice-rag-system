@@ -78,9 +78,14 @@ now **persists in your browser** (localStorage) across reloads, and feeds `/benc
 run a few queries on the console, then check `/benchmark` — it shows your own history the moment
 there's no official harness `final.json` yet.
 
-**Five one-tap presets** — normal, ambiguous, an Indic-language query, a deliberate no-match, and
-an adversarial input the guardrail should refuse before a single API call — so a demo never
-depends on typing under pressure.
+**One-tap presets, reshuffled from the real index.** `/fn/samples` pulls 5 random real queries
+straight from the Qdrant collection — one per language when possible — so "Try one" shows
+something different on every page load, and every preset is a genuine stored query you're free to
+rephrase; any alteration still searches the same corpus. Built deliberately without depending on
+Qdrant's native random-sampling API (server-version-gated, unconfirmed on the Free tier) — instead
+a small per-language pool is scrolled once and cached, with the actual randomness done in-process.
+If Qdrant is unreachable, it falls back to five curated presets (normal, ambiguous, Indic-language,
+no-match, adversarial) covering all five terminal states, so "Try one" is never empty.
 
 **Every response carries a `request_id`**, copyable in the UI, that reconstructs the same request
 across both the `/fn/stt` and `/fn/search` function logs.
@@ -91,7 +96,7 @@ across both the `/fn/stt` and `/fn/search` function logs.
 
 ```
 netlify/
-  functions/     stt · embed · rerank · search · health · keepalive  (the actual backend)
+  functions/     stt · embed · rerank · search · health · keepalive · samples  (the actual backend)
   lib/           sarvam · jina · qdrant · sparse · budget · guardrails · schemas · manifest
   manifest.json  the ingestion contract — asserted against env at boot, fails loudly on mismatch
 

@@ -1,20 +1,24 @@
 # Netlify serverless functions — setup and run guide
 
-Implements `claude/serverless.md`. Six functions, four-plus-three shared libs,
-zero frontend wiring — see that spec for the full design rationale. This
-guide is the practical "how do I run/deploy/test this" companion.
+Implements `claude/serverless.md`. Six functions from the original spec plus
+`samples.mts` (added later, for the console's "Try one" row), four-plus-three
+shared libs, zero frontend wiring — see that spec for the full design
+rationale. This guide is the practical "how do I run/deploy/test this"
+companion.
 
 ```
 netlify/
-  functions/   stt.mts  embed.mts  rerank.mts  search.mts  health.mts  keepalive.mts
+  functions/   stt.mts  embed.mts  rerank.mts  search.mts  health.mts
+               keepalive.mts  samples.mts
   lib/         sarvam.ts  jina.ts  qdrant.ts  sparse.ts  budget.ts  guardrails.ts  schemas.ts  manifest.ts
-  manifest.json  ← PLACEHOLDER until data_ingestion/ has actually run
+  manifest.json  ← real ingestion output (53,444 points, 8 languages)
 test/          parity, guardrails, ladder, budget, degrade, schema, lang
 netlify.toml
 ```
 
 `lib/sparse.ts` isn't in the original file list in `claude/serverless.md` —
-see the note in that file and in §5 below for why it exists.
+see the note in that file and in §5 below for why it exists. `samples.mts`
+isn't in the spec either — added afterward, documented in §9 below.
 
 ---
 
@@ -240,3 +244,42 @@ degradation ladder demoed against a *real* collection by unsetting
 `JINA_API_KEY` (this session's version of that check used dummy/unreachable
 credentials against a non-existent collection, which is the same code path
 but not the real thing).
+
+## 9. `/fn/samples` — random real queries for "Try one"
+
+`GET /fn/samples` — added after the original six, for the console's preset
+row (`src/components/RagSampleQuestions.tsx`). Returns up to 5 random real
+indexed queries, one per language where possible, so "Try one" is different
+on every page load instead of a fixed static list.
+
+**Deliberately not built on Qdrant's native `query: {sample: "random"}`.**
+That parameter is real (shipped in Qdrant server 1.11, Aug 2024) but two
+things about it couldn't be confirmed against this project's actual
+Qdrant Cloud Free cluster: whether the cluster is actually on ≥1.11, and
+whether the pinned `@qdrant/js-client-rest@1.19.0`'s generated TS types
+cleanly expose the `sample` variant. Given the ask was explicitly "minimum
+chance of failure," the function instead:
+
+1. On cold start, runs one `qdrant.scroll()` per language in
+   `manifest.languages` (8 calls, `filter: {strategy: "query", lang}`,
+   `limit: 20`) — a fully-documented, version-independent primitive with no
+   dependency on when random-sampling support landed. Zero calls to Jina or
+   Sarvam; this is a pure payload filter, not a similarity search.
+2. Caches the resulting per-language pools at module scope (reused across
+   warm invocations, 1h TTL as a staleness safety net only — the corpus is
+   static, so freshness was never the concern).
+3. Does the actual randomization **in-process** via `Math.random()` on every
+   request — `scroll()` returns points in ID order, not random order, so
+   the randomness has to come from the function itself either way, and this
+   sidesteps the whole "does the server/client support native sampling"
+   question entirely.
+4. Prefers one sample per distinct language before filling any remaining
+   slots — otherwise a naive random pick over a pooled list can plausibly
+   return 5 queries in the same language.
+
+**Never throws, matches the house style** — a fully-unreachable Qdrant
+degrades every per-language scroll to an empty pool and the handler still
+returns a clean `200 {status:"ok", samples:[]}`, not a 5xx. The client
+(`src/lib/rag-client.ts`'s `samples()`) treats an empty or failed response
+as "keep showing the five curated presets" — `RagSampleQuestions.tsx`
+never renders an empty "Try one" section, live data or not.

@@ -64,3 +64,18 @@ export const HealthResponseSchema = z.object({
   request_id: z.string(),
   timings_ms: TimingsMsSchema,
 });
+
+export const SampleItemSchema = z.object({
+  id: z.string(),
+  transcript: z.string(),
+  language: z.string(),
+  qid: z.string().optional(),
+});
+
+export const SamplesResponseSchema = z.object({
+  status: z.enum(["ok", "error"]),
+  samples: z.array(SampleItemSchema).optional(),
+  request_id: z.string(),
+  timings_ms: TimingsMsSchema,
+  error: z.string().optional(),
+});
