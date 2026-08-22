@@ -1,0 +1,4 @@
+{
+  "_comment": "PLACEHOLDER — populate after running data_ingestion/ingest_msmarco.ipynb. For 20 fixed strings across Devanagari, Kannada, Tamil, Telugu, Malayalam and Latin scripts, run the SAME matryoshka(encode([text], 'retrieval.query'), EMBED_DIM) helper the notebook uses and dump {text, expected} pairs into `fixtures` below. parity.test.ts skips itself while this array is empty.",
+  "fixtures": []
+}

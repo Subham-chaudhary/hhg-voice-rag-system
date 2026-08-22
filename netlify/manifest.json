@@ -1,0 +1,13 @@
+{
+  "model": "jinaai/jina-embeddings-v3",
+  "revision": "PLACEHOLDER_RUN_INGESTION_FIRST",
+  "corpus_task": "retrieval.passage",
+  "query_task": "retrieval.query",
+  "dims": [128, 256, 512, 768, 1024],
+  "collection": "msmarco_xi",
+  "dataset": "ai4bharat/MSMARCO-XI",
+  "timestamp": 0,
+  "per_language": {},
+  "tiers": {},
+  "projected_points": 0
+}
