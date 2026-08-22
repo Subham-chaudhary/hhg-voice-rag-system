@@ -55,4 +55,4 @@ function log(line: Record<string, unknown>) {
   console.log(JSON.stringify(line));
 }
 
-export const config: Config = { path: "/api/rerank" };
+export const config: Config = { path: "/fn/rerank" };

@@ -1,7 +1,7 @@
 /**
- * POST /api/search — the measured path. Imports lib/jina.ts and
- * lib/qdrant.ts DIRECTLY — never fetch()es its own /api/embed or
- * /api/rerank. This is the one path where latency is being measured; a
+ * POST /fn/search — the measured path. Imports lib/jina.ts and
+ * lib/qdrant.ts DIRECTLY — never fetch()es its own /fn/embed or
+ * /fn/rerank. This is the one path where latency is being measured; a
  * self-fetch would add a full extra round trip through Netlify's edge.
  *
  * search.mts never calls the LLM — that endpoint is a separate phase.
@@ -256,4 +256,4 @@ function log(line: Record<string, unknown>) {
   console.log(JSON.stringify(line));
 }
 
-export const config: Config = { path: "/api/search" };
+export const config: Config = { path: "/fn/search" };
