@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { HhgRibbon } from "@/components/HhgRibbon";
@@ -16,21 +16,30 @@ import {
   StageKey,
 } from "@/lib/contract";
 import { ms } from "@/lib/format";
-import { getServerSnapshot, getSnapshot, isPersistent, subscribe } from "@/lib/rag-store";
-
-const noopSubscribe = () => () => {};
+import { getSnapshot, isPersistent, subscribe, type SessionRecord } from "@/lib/rag-store";
 
 export default function Benchmark() {
   const [run, setRun] = useState<BenchmarkRun | null>(null);
   const [failed, setFailed] = useState(false);
-  const localRecords = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-  const localStorageAvailable = useSyncExternalStore(noopSubscribe, isPersistent, () => false);
+  // Explicit mount-time read, same reasoning as SessionLatencyPanel — this
+  // is client-only data with no SSR snapshot worth reconciling against.
+  const [localRecords, setLocalRecords] = useState<SessionRecord[]>([]);
+  const [localStorageAvailable, setLocalStorageAvailable] = useState(false);
 
   useEffect(() => {
     fetch("/api/benchmark")
       .then((response) => response.json())
       .then(setRun)
       .catch(() => setFailed(true));
+  }, []);
+
+  useEffect(() => {
+    // One-time read of external systems (localStorage) on mount, not
+    // derived from any React state; subscribe() below is the ongoing sync.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLocalRecords(getSnapshot());
+    setLocalStorageAvailable(isPersistent());
+    return subscribe(() => setLocalRecords(getSnapshot()));
   }, []);
 
   const noHarnessData = run && (run.queryCount === 0 || run.isPlaceholder);

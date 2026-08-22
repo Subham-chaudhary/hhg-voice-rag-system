@@ -1,14 +1,29 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { Histogram } from "./Histogram";
 import { ms, percent } from "@/lib/format";
-import { clearRecords, getServerSnapshot, getSnapshot, segmentLatency, subscribe } from "@/lib/rag-store";
+import { clearRecords, getSnapshot, segmentLatency, subscribe, type SessionRecord } from "@/lib/rag-store";
 
 const RAG_CORE_TARGET_MS = 200;
 
 export function SessionLatencyPanel() {
-  const records = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  // Explicit mount-time read + subscribe, not useSyncExternalStore's
+  // getServerSnapshot/getSnapshot split — this data is 100% client-only
+  // (localStorage), so there's nothing meaningful to reconcile against an
+  // SSR snapshot, and relying on that reconciliation firing on every load
+  // was the actual bug: existing records didn't show until a live
+  // publish() event forced a re-render.
+  const [records, setRecords] = useState<SessionRecord[]>([]);
+
+  useEffect(() => {
+    // One-time read of an external system (localStorage) on mount, not
+    // derived from any React state; subscribe() below is the ongoing sync.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setRecords(getSnapshot());
+    return subscribe(() => setRecords(getSnapshot()));
+  }, []);
+
   if (!records.length) return null;
 
   const seg = segmentLatency(records);
